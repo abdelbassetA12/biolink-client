@@ -613,205 +613,209 @@ if (!user) return null;
 
 
 
-
-
 {/* MODAL */}
 {showSocialModal && (
   <div className="social-modal-overlay">
 
+    {/* EDIT */}
+    {socialMode === 'edit' && (
+      <div className="social-card custom-scroll">
 
+        <h3 className="social-title">
+          <FaLink />
+          Edit Social Links
+        </h3>
 
+        {socialIcons.map((s, i) => (
 
-    {/* EDIT فقط */}
-{socialMode === 'edit' && (
-  <div className="social-card">
-    <h3 className="social-title">
-      <FaLink /> Edit Social
-    </h3>
+          <div key={i} className="social-row">
 
-    {socialIcons.map((s, i) => (
-      <div key={i} className="social-row">
+            {/* PLATFORM */}
+            <div className="social-select-wrapper">
 
-        <div className="social-select-wrapper">
+              <div
+                className="social-select"
+                onClick={() => {
 
-          {/* SELECT BOX */}
-          <div
-            className="social-select"
-            onClick={() => {
-              const updated = socialIcons.map((x, j) =>
-                j === i ? { ...x, open: !x.open } : { ...x, open: false }
-              );
-              setSocialIcons(updated);
-            }}
-          >
-
-            {/* SELECTED */}
-            <div className="social-selected">
-              {
-                (() => {
-                  const platform = socialPlatforms.find(
-                    p => p.name === s.platform
+                  const updated = socialIcons.map((x, j) =>
+                    j === i
+                      ? { ...x, open: !x.open }
+                      : { ...x, open: false }
                   );
 
-                  const Icon = platform?.icon;
+                  setSocialIcons(updated);
 
-                  return (
-                    <>
-                      {Icon && <Icon size={18} />}
-                      <span>
-                        {platform?.label || 'Select Platform'}
-                      </span>
-                    </>
-                  );
-                })()
-              }
+                }}
+              >
+
+                <div className="social-selected">
+
+                  {(() => {
+
+                    const platform = socialPlatforms.find(
+                      p => p.name === s.platform
+                    );
+
+                    const Icon = platform?.icon;
+
+                    return (
+                      <>
+                        {Icon && <Icon size={18} />}
+                        <span>
+                          {platform?.label || 'Select Platform'}
+                        </span>
+                      </>
+                    );
+
+                  })()}
+
+                </div>
+
+              </div>
+
+              {/* DROPDOWN */}
+              {s.open && (
+
+                <div className="social-dropdown custom-scroll">
+
+                  {socialPlatforms.map((p) => {
+
+                    const Icon = p.icon;
+
+                    return (
+
+                      <div
+                        key={p.name}
+                        className="social-option"
+                        onClick={() => {
+
+                          const updated = socialIcons.map((x, j) =>
+                            j === i
+                              ? {
+                                  ...x,
+                                  platform: p.name,
+                                  open: false
+                                }
+                              : x
+                          );
+
+                          setSocialIcons(updated);
+
+                        }}
+                      >
+
+                        <Icon size={18} />
+
+                        <span>
+                          {p.label}
+                        </span>
+
+                      </div>
+
+                    );
+
+                  })}
+
+                </div>
+
+              )}
+
             </div>
-          </div>
 
-          {/* DROPDOWN */}
-          {s.open && (
-            <div className="social-dropdown">
-              {socialPlatforms.map(p => {
-                const Icon = p.icon;
+            {/* URL */}
+            <input
+              className="social-input"
+              placeholder="https://example.com"
+              value={s.url}
+              onChange={(e) => {
 
-                return (
-                  <div
-                    key={p.name}
-                    className="social-option"
-                    onClick={() => {
-                      const updated = socialIcons.map((x, j) =>
-                        j === i
-                          ? { ...x, platform: p.name, open: false }
-                          : x
-                      );
-
-                      setSocialIcons(updated);
-                    }}
-                  >
-                    <Icon size={18} />
-                    {p.label}
-                  </div>
+                const updated = socialIcons.map((x, j) =>
+                  j === i
+                    ? {
+                        ...x,
+                        url: e.target.value
+                      }
+                    : x
                 );
-              })}
-            </div>
-          )}
 
-        </div>
+                setSocialIcons(updated);
 
-        {/* URL INPUT */}
-        <input
-          className="social-input"
-          value={s.url}
-          onChange={e => {
-            const updated = socialIcons.map((x, j) =>
-              j === i
-                ? { ...x, url: e.target.value }
-                : x
-            );
+              }}
+            />
+             {/* TOGGLE */}
+<div className="social-toggle">
 
-            setSocialIcons(updated);
-          }}
-        />
+  <label className="toggle-wrapper">
 
-        {/* CHECKBOX */}
-        <input
-          type="checkbox"
-          checked={s.active}
-          onChange={e => {
-            const updated = socialIcons.map((x, j) =>
-              j === i
-                ? { ...x, active: e.target.checked }
-                : x
-            );
+    <input
+      type="checkbox"
+      className="toggle-input"
+      checked={!!s.active}
+      onChange={(e) => {
 
-            setSocialIcons(updated);
-          }}
-        />
+        const updated = [...socialIcons];
 
-        {/* SAVE */}
-        <button
-          className="social-save-btn"
-          onClick={() => updateSocial(i, s)}
-        >
-          <FaSave /> Save
-        </button>
+        updated[i] = {
+          ...updated[i],
+          active: e.target.checked
+        };
 
-        {/* DELETE */}
-        <button
-          className="social-delete-btn"
-          onClick={() => deleteSocial(i)}
-        >
-          <FaTrash /> Delete
-        </button>
+        setSocialIcons(updated);
 
-      </div>
-    ))}
+      }}
+    />
 
-    <div className="social-footer">
+    <div className={`toggle-bg ${s.active ? 'active' : ''}`}>
 
-      {/* CANCEL */}
-      <button
-        className="social-cancel-btn"
-        onClick={() => setShowSocialModal(false)}
-      >
-        Cancel
-      </button>
+      <div
+        className={`toggle-circle ${s.active ? 'active' : ''}`}
+      />
 
     </div>
 
-  </div>
-)}
+  </label>
 
-
-    {/* ADD */}
-    {socialMode === 'add' && (
-      <div className='card'>
-
-        <h3><FaPlus /> Add Social</h3>
-
-        <select
-          className='input-social'
-          value={social.platform}
-          onChange={e => setSocial({ ...social, platform: e.target.value })}
-        >
-          <option className='option-social'  value="">Select Platform</option>
-
-          {socialPlatforms.map(p => (
-            <option className='option-social' key={p.name} value={p.name}>
-              {p.label}{`${p.name}`}
-            </option>
-          ))}
-
-        </select>
-
-       
-        <input
-          className='input'
-          placeholder="URL"
-          value={social.url}
-          onChange={e => setSocial({ ...social, url: e.target.value })}
-        />
-
-        <label>
-          <input
-            type="checkbox"
-            checked={social.active}
-            onChange={e => setSocial({ ...social, active: e.target.checked })}
-          />
-          Active
-        </label>
-
-        <div className="modal-buttons-row">
-
-          <button  className="custom-btn btn-green"  onClick={addSocial}>
-            Add
-          </button>
-
-          <button className="custom-btn btn-gray"
+</div>
             
+
+            {/* SAVE */}
+            <button
+              className="social-save-btn"
+              onClick={() => updateSocial(i, s)}
+            >
+
+              <FaSave />
+
+              <span>Save</span>
+
+            </button>
+
+            {/* DELETE */}
+            <button
+              className="social-delete-btn"
+              onClick={() => deleteSocial(i)}
+            >
+
+              <FaTrash />
+
+              <span>Delete</span>
+
+            </button>
+
+          </div>
+
+        ))}
+
+        {/* FOOTER */}
+        <div className="social-footer">
+
+          <button
+            className="social-cancel-btn"
             onClick={() => setShowSocialModal(false)}
           >
+
             Cancel
+
           </button>
 
         </div>
@@ -819,8 +823,160 @@ if (!user) return null;
       </div>
     )}
 
+    {/* ADD */}
+    {socialMode === 'add' && (
+
+      <div className="social-card">
+
+        <h3 className="social-title">
+          <FaPlus />
+          Add Social Link
+        </h3>
+
+        {/* PLATFORM */}
+        <div className="form-field-box">
+
+          <label className="checkbox-label">
+            Platform
+          </label>
+
+          <select
+            className="input-social"
+            value={social.platform}
+            onChange={(e) =>
+              setSocial({
+                ...social,
+                platform: e.target.value
+              })
+            }
+          >
+
+            <option value="">
+              Select Platform
+            </option>
+
+            {socialPlatforms.map((p) => (
+
+              <option
+                key={p.name}
+                value={p.name}
+              >
+                {p.label}
+              </option>
+
+            ))}
+
+          </select>
+
+        </div>
+
+        {/* URL */}
+        <div className="form-field-box">
+
+          <label className="checkbox-label">
+            URL
+          </label>
+
+          <input
+            className="input"
+            placeholder="https://example.com"
+            value={social.url}
+            onChange={(e) =>
+              setSocial({
+                ...social,
+                url: e.target.value
+              })
+            }
+          />
+
+        </div>
+
+        {/* ACTIVE */}
+        <div className="form-field-box">
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px'
+            }}
+          >
+
+            <span className="checkbox-label">
+              Active
+            </span>
+
+            <label className="toggle-wrapper">
+
+              <input
+                type="checkbox"
+                className="toggle-input"
+                checked={social.active}
+                onChange={(e) =>
+                  setSocial({
+                    ...social,
+                    active: e.target.checked
+                  })
+                }
+              />
+
+              <div
+                className={`toggle-bg ${social.active ? 'active' : ''}`}
+              >
+
+                <div
+                  className={`toggle-circle ${social.active ? 'active' : ''}`}
+                />
+
+              </div>
+
+            </label>
+
+          </div>
+
+        </div>
+
+        {/* BUTTONS */}
+        <div
+          className="modal-buttons-row"
+          style={{
+            display: 'flex',
+            gap: '12px',
+            marginTop: '20px',
+            flexWrap: 'wrap'
+          }}
+        >
+
+          <button
+            className="custom-btn btn-green"
+            onClick={addSocial}
+          >
+
+            <FaPlus />
+
+            <span>Add</span>
+
+          </button>
+
+          <button
+            className="custom-btn btn-gray"
+            onClick={() => setShowSocialModal(false)}
+          >
+
+            Cancel
+
+          </button>
+
+        </div>
+
+      </div>
+
+    )}
+
   </div>
 )}
+
 
 
 
@@ -1786,10 +1942,12 @@ if (!user) return null;
   </div>
 
 </div>
- <style>{`
- .dashboard{
+<style>
+  {`
+  
+.dashboard{
   display:flex;
- height:100vh;
+  height:100vh;
   background:linear-gradient(135deg,#eef2ff,#f8fafc);
   font-family:'Inter',sans-serif;
   color:#1f2937;
@@ -1825,6 +1983,10 @@ if (!user) return null;
    GLOBAL
 ========================= */
 
+*{
+  box-sizing:border-box;
+}
+
 input:focus,
 select:focus,
 textarea:focus{
@@ -1834,11 +1996,15 @@ textarea:focus{
 }
 
 button{
-  transition:0.2s;
+  transition:0.25s ease;
 }
 
 button:hover{
-  opacity:0.95;
+  opacity:0.96;
+}
+
+img{
+  max-width:100%;
 }
 
 /* =========================
@@ -1849,6 +2015,7 @@ button:hover{
   flex:1;
   padding:24px;
   overflow-y:auto;
+  width:100%;
 }
 
 /* =========================
@@ -1857,12 +2024,14 @@ button:hover{
 
 .card{
   background:#fff;
-  border-radius:22px;
+  border-radius:24px;
   padding:24px;
   margin-bottom:24px;
 
+  border:1px solid #eef2f7;
+
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.06);
+    0 10px 30px rgba(0,0,0,0.05);
 }
 
 /* =========================
@@ -1880,22 +2049,14 @@ button:hover{
   min-width:0;
 }
 
-.input{
-  padding:12px 14px;
-  border-radius:14px;
+.input,
+.input-social{
+  padding:14px 16px;
+  border-radius:16px;
   border:1px solid #d1d5db;
   margin-bottom:12px;
   font-size:14px;
   transition:0.2s;
-  background:white;
-}
-
-.input-social{
-  padding:12px 14px;
-  border-radius:14px;
-  border:1px solid #d1d5db;
-  margin-bottom:12px;
-  font-size:14px;
   background:white;
 }
 
@@ -1911,20 +2072,21 @@ button:hover{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:20px;
+  gap:14px;
+  margin-bottom:22px;
 }
 
 .profile-title{
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
 }
 
 .profile-edit-btn{
-  width:38px;
-  height:38px;
+  width:42px;
+  height:42px;
 
-  border-radius:12px;
+  border-radius:14px;
   background:#f3f4f6;
 
   display:flex;
@@ -1935,25 +2097,23 @@ button:hover{
 
   color:#6b7280;
   border:1px solid #e5e7eb;
-
-  transition:0.2s;
 }
 
 .profile-edit-btn:hover{
-  background:#8c9097;
+  background:#6366f1;
   color:#fff;
 }
 
 .profile-user-info{
   display:flex;
   align-items:center;
-  gap:16px;
-  margin-bottom:22px;
+  gap:18px;
+  margin-bottom:24px;
 }
 
 .profile-avatar{
-  width:72px;
-  height:72px;
+  width:78px;
+  height:78px;
 
   border-radius:50%;
   object-fit:cover;
@@ -1962,24 +2122,25 @@ button:hover{
 }
 
 .profile-user-name{
-  font-weight:600;
-  font-size:16px;
+  font-weight:700;
+  font-size:18px;
 }
 
 .profile-user-bio{
   color:#6b7280;
   font-size:14px;
+  line-height:1.6;
 }
 
 .profile-edit-form{
   padding:20px;
   background:#EEF2FF;
-  border-radius:16px;
+  border-radius:18px;
   margin-bottom:25px;
 }
 
 /* =========================
-   SOCIAL
+   SOCIAL SECTION
 ========================= */
 
 .social-section{
@@ -1987,6 +2148,7 @@ button:hover{
   justify-content:space-between;
   align-items:center;
   gap:16px;
+  flex-wrap:wrap;
 }
 
 .social-icons-list{
@@ -1996,8 +2158,8 @@ button:hover{
 }
 
 .social-icon-box{
-  width:46px;
-  height:46px;
+  width:48px;
+  height:48px;
 
   border-radius:50%;
   background:#EEF2FF;
@@ -2005,18 +2167,20 @@ button:hover{
   display:flex;
   justify-content:center;
   align-items:center;
+
+  border:1px solid #dbeafe;
 }
 
 .social-actions{
   display:flex;
-  gap:8px;
+  gap:10px;
 }
 
 .icon-action-btn{
-  width:38px;
-  height:38px;
+  width:42px;
+  height:42px;
 
-  border-radius:12px;
+  border-radius:14px;
   background:#f3f4f6;
 
   display:flex;
@@ -2027,11 +2191,10 @@ button:hover{
   color:#6b7280;
 
   border:1px solid #e5e7eb;
-  transition:0.2s;
 }
 
 .icon-action-btn:hover{
-  background:#8c9097;
+  background:#6366f1;
   color:#fff;
 }
 
@@ -2043,7 +2206,8 @@ button:hover{
   position:fixed;
   inset:0;
 
-  background:rgba(0,0,0,0.5);
+  background:rgba(15,23,42,0.6);
+  backdrop-filter:blur(8px);
 
   display:flex;
   justify-content:center;
@@ -2055,123 +2219,331 @@ button:hover{
 
 .social-card{
   width:100%;
-  max-width:720px;
+  max-width:950px;
 
-  max-height:90vh;
+  max-height:92vh;
   overflow-y:auto;
 
   background:#fff;
-  border-radius:22px;
-  padding:24px;
+  border-radius:28px;
+  padding:28px;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.18);
 }
 
 .social-title{
   display:flex;
   align-items:center;
-  gap:8px;
-  margin-bottom:20px;
+  gap:10px;
+
+  margin-bottom:24px;
+
+  font-size:22px;
+  font-weight:700;
 }
 
+/* =========================
+   SOCIAL ROW NEW UI
+========================= */
+
 .social-row{
-  display:flex;
-  gap:10px;
-  margin-bottom:12px;
+  display:grid;
+
+  grid-template-columns:
+    minmax(180px,220px)
+    minmax(0,1fr)
+    auto
+    auto
+    auto;
+
+  gap:14px;
+
   align-items:center;
+
+  padding:18px;
+  margin-bottom:16px;
+
+  background:#f8fafc;
+
+  border:1px solid #e5e7eb;
+  border-radius:22px;
+
+  transition:0.25s ease;
 }
+
+.social-row:hover{
+  border-color:#c7d2fe;
+
+  box-shadow:
+    0 10px 30px rgba(99,102,241,0.08);
+
+  transform:translateY(-2px);
+}
+
+/* =========================
+   SELECT
+========================= */
 
 .social-select-wrapper{
   position:relative;
   width:100%;
+  min-width:0;
 }
 
 .social-select{
+  width:100%;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
 
   cursor:pointer;
 
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:12px;
+  padding:14px 16px;
+
+  border:1px solid #dbe2ea;
+  border-radius:16px;
+
   background:#fff;
+
+  transition:0.2s;
+}
+
+.social-select:hover{
+  border-color:#6366f1;
 }
 
 .social-selected{
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
+
+  font-weight:500;
+  color:#111827;
+
+  overflow:hidden;
 }
+
+.social-selected span{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* =========================
+   DROPDOWN
+========================= */
 
 .social-dropdown{
   position:absolute;
-  top:100%;
+  top:calc(100% + 8px);
   left:0;
   right:0;
 
   background:#fff;
-  border:1px solid #ddd;
-  border-radius:12px;
 
-  margin-top:5px;
-  z-index:10;
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+
   overflow:hidden;
+
+  z-index:100;
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.08);
 }
 
 .social-option{
-  padding:12px;
+  padding:14px 16px;
 
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
 
   cursor:pointer;
+
   transition:0.2s;
 }
 
 .social-option:hover{
-  background:#f3f4f6;
+  background:#eef2ff;
+  color:#4f46e5;
 }
 
+/* =========================
+   INPUT
+========================= */
+
 .social-input{
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:12px;
+  width:100%;
+
+  padding:14px 16px;
+
+  background:#fff;
+
+  border:1px solid #dbe2ea;
+  border-radius:16px;
+
+  font-size:14px;
+
+  transition:0.2s;
+}
+
+.social-input:focus{
+  border-color:#6366f1;
+
+  box-shadow:
+    0 0 0 4px rgba(99,102,241,0.12);
+}
+
+
+
+/* =========================================================
+   TOGGLE
+========================================================= */
+
+.social-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:100%;
+  min-width:60px;
+}
+
+.toggle-wrapper{
+  position:relative;
+
+  width:54px;
+  height:30px;
+
+  cursor:pointer;
+
+  flex-shrink:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.toggle-input{
+  position:absolute;
+
+  opacity:0;
+
+  width:0;
+  height:0;
+}
+
+.toggle-bg{
+  position:relative;
+
+  width:54px;
+  height:30px;
+
+  border-radius:999px;
+
+  background:#d1d5db;
+
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.toggle-bg.active{
+  background:
+    linear-gradient(
+      135deg,
+      #6366f1,
+      #4f46e5
+    );
+
+  box-shadow:
+    0 4px 14px rgba(99,102,241,0.35);
+}
+
+.toggle-circle{
+  position:absolute;
+
+  top:4px;
+  left:4px;
+
+  width:22px;
+  height:22px;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  transition:
+    transform 0.25s ease;
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.18);
+}
+
+.toggle-circle.active{
+  transform:translateX(24px);
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.social-save-btn,
+.social-delete-btn{
+  height:50px;
+
+  padding:0 18px;
+
+  border:none;
+  border-radius:16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  font-size:14px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  white-space:nowrap;
+
+  transition:0.25s ease;
 }
 
 .social-save-btn{
-  background:#3B82F6;
+  background:linear-gradient(135deg,#6366f1,#4f46e5);
   color:white;
+}
 
-  border:none;
-  padding:10px 14px;
-  border-radius:12px;
+.social-save-btn:hover{
+  transform:translateY(-2px);
 
-  display:flex;
-  align-items:center;
-  gap:6px;
-
-  cursor:pointer;
+  box-shadow:
+    0 10px 24px rgba(79,70,229,0.25);
 }
 
 .social-delete-btn{
-  background:#EF4444;
+  background:#fff;
+  color:#ef4444;
+
+  border:1px solid #fecaca;
+}
+
+.social-delete-btn:hover{
+  background:#ef4444;
   color:white;
-
-  border:none;
-  padding:10px 14px;
-  border-radius:12px;
-
-  display:flex;
-  align-items:center;
-  gap:6px;
-
-  cursor:pointer;
 }
 
 .social-footer{
   display:flex;
-  gap:10px;
+  justify-content:flex-end;
+  margin-top:20px;
 }
 
 .social-cancel-btn{
@@ -2179,25 +2551,28 @@ button:hover{
   color:white;
 
   border:none;
-  padding:10px 14px;
-  border-radius:12px;
+  padding:12px 18px;
+  border-radius:14px;
 
   cursor:pointer;
+
+  font-weight:600;
 }
 
 /* =========================
-   BUTTONS
+   BUTTONS GLOBAL
 ========================= */
 
 .custom-btn{
-  padding:10px 16px;
-  border-radius:12px;
+  padding:12px 18px;
+  border-radius:14px;
   border:none;
 
   color:white;
   cursor:pointer;
 
   font-size:14px;
+  font-weight:600;
 
   display:flex;
   align-items:center;
@@ -2230,7 +2605,7 @@ button:hover{
 ========================= */
 
 .title-collection{
-  margin-bottom:16px;
+  margin-bottom:18px;
 
   display:flex;
   align-items:center;
@@ -2259,7 +2634,7 @@ button:hover{
   padding:14px 16px;
 
   border:1px solid #e5e7eb;
-  border-radius:14px;
+  border-radius:16px;
 
   background:#fff;
   color:#111827;
@@ -2279,11 +2654,6 @@ button:hover{
 
 .link-type-select:hover{
   border-color:#6366f1;
-}
-
-.link-type-select:focus{
-  border-color:#4f46e5;
-  box-shadow:0 0 0 4px rgba(99,102,241,0.15);
 }
 
 .select-wrapper::after{
@@ -2311,8 +2681,8 @@ button:hover{
 
   background:#f9fafb;
 
-  border-radius:14px;
-  padding:12px;
+  border-radius:16px;
+  padding:14px;
 
   border:1px solid #e5e7eb;
   margin-bottom:12px;
@@ -2333,10 +2703,6 @@ button:hover{
   width:100%;
   font-size:14px;
   color:#111827;
-}
-
-.custom-select{
-  cursor:pointer;
 }
 
 /* =========================
@@ -2371,8 +2737,8 @@ button:hover{
   background:#111827;
   color:white;
 
-  padding:10px 16px;
-  border-radius:12px;
+  padding:12px 16px;
+  border-radius:14px;
 
   cursor:pointer;
   margin-bottom:12px;
@@ -2408,15 +2774,15 @@ button:hover{
 }
 
 .add-link-btn{
-  padding:12px 18px;
+  padding:14px 20px;
 
-  border-radius:14px;
+  border-radius:16px;
   border:none;
 
   background:linear-gradient(135deg,#6366f1,#4f46e5);
 
   color:white;
-  font-weight:500;
+  font-weight:600;
 
   cursor:pointer;
 
@@ -2430,7 +2796,7 @@ button:hover{
 ========================= */
 
 .links-list-title{
-  margin-bottom:16px;
+  margin-bottom:18px;
 
   display:flex;
   align-items:center;
@@ -2440,8 +2806,8 @@ button:hover{
 .link-item-card{
   background:#fff;
 
-  border-radius:16px;
-  padding:16px;
+  border-radius:18px;
+  padding:18px;
   margin-bottom:14px;
 
   border:1px solid #e5e7eb;
@@ -2465,7 +2831,7 @@ button:hover{
 
 .input-title{
   border:none;
-  font-weight:500;
+  font-weight:600;
   font-size:14px;
   outline:none;
   margin-bottom:6px;
@@ -2501,81 +2867,10 @@ button:hover{
   opacity:1;
 }
 
-.form-fields-wrapper{
-  margin-top:10px;
-}
-
-.single-form-field{
-  border:1px solid #e5e7eb;
-  padding:10px;
-  border-radius:12px;
-  margin-bottom:10px;
-}
-
-.required-label{
-  font-size:13px;
-}
-
-.product-preview-box{
-  margin-top:10px;
-
-  border:1px solid #e5e7eb;
-  border-radius:12px;
-
-  padding:10px;
-  background:#f9fafb;
-}
-
 .drag-handle{
   cursor:grab;
   font-size:16px;
   opacity:0.7;
-}
-
-.toggle-wrapper{
-  position:relative;
-  width:42px;
-  height:22px;
-  cursor:pointer;
-}
-
-.toggle-input{
-  display:none;
-}
-
-.toggle-bg{
-  width:100%;
-  height:100%;
-
-  border-radius:20px;
-  background:#e5e7eb;
-
-  transition:0.3s;
-  position:relative;
-}
-
-.toggle-bg.active{
-  background:#10b981;
-}
-
-.toggle-circle{
-  position:absolute;
-  top:2px;
-  left:2px;
-
-  width:18px;
-  height:18px;
-
-  border-radius:50%;
-  background:#fff;
-
-  transition:0.3s;
-
-  box-shadow:0 2px 6px rgba(0,0,0,0.2);
-}
-
-.toggle-circle.active{
-  left:22px;
 }
 
 /* =========================
@@ -2611,7 +2906,7 @@ button:hover{
   font-weight:bold;
   text-decoration:none;
 
-  border-radius:12px;
+  border-radius:14px;
   border:1px solid #1D4ED8;
 }
 
@@ -2627,6 +2922,9 @@ button:hover{
   box-shadow:
     0 20px 60px rgba(0,0,0,0.2);
 }
+
+
+
 
 /* =========================
    TABLET
@@ -2644,6 +2942,21 @@ button:hover{
     height:600px;
   }
 
+  .social-row{
+    grid-template-columns:
+      1fr
+      1fr;
+  }
+
+  .social-toggle{
+    justify-content:flex-start;
+  }
+
+  .social-save-btn,
+  .social-delete-btn{
+    width:100%;
+  }
+
 }
 
 /* =========================
@@ -2654,7 +2967,7 @@ button:hover{
 
   .dashboard{
     flex-direction:column;
-     height:auto;
+    height:auto;
   }
 
   .lift-panel{
@@ -2686,8 +2999,12 @@ button:hover{
   }
 
   .social-row{
-    flex-direction:column;
-    align-items:stretch;
+    grid-template-columns:1fr;
+    padding:16px;
+  }
+
+   .social-toggle{
+    justify-content:flex-start;
   }
 
   .link-item-card{
@@ -2697,6 +3014,7 @@ button:hover{
   .link-item-right{
     width:100%;
     justify-content:space-between;
+    flex-wrap:wrap;
   }
 
 }
@@ -2709,7 +3027,12 @@ button:hover{
 
   .card{
     padding:16px;
-    border-radius:16px;
+    border-radius:18px;
+  }
+
+  .social-card{
+    padding:18px;
+    border-radius:22px;
   }
 
   .profile-user-info{
@@ -2745,8 +3068,10 @@ button:hover{
     height:600px;
   }
 
-  .link-item-right{
-    flex-wrap:wrap;
+  .social-save-btn,
+  .social-delete-btn{
+    width:100%;
+    height:52px;
   }
 
 }
@@ -2774,13 +3099,12 @@ button:hover{
     height:60px;
   }
 
+  .social-title{
+    font-size:18px;
+  }
+
 }
- 
- 
- `}</style>
-
- 
-
+`}</style>
 
   
 
@@ -2789,3 +3113,4 @@ button:hover{
     </div>
   );
 }  
+
