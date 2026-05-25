@@ -16,8 +16,10 @@ export default function Navbar() {
 
           {/* LEFT */}
           <div className="left">
-            <div className="logo">
-              <span>⚡</span> BioLink
+            <div className="title">
+              <img className='logo' src="/Qevora.log.png" alt="Qevora Logo" />
+
+          evora
             </div>
 
             <nav className="nav">
@@ -88,15 +90,21 @@ export default function Navbar() {
           align-items: center;
           gap: 28px;
         }
+          .title{
+ display: flex;
+ align-items: center;
+  color:white;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
 
-        .logo {
-          font-weight: 700;
-          color: #60a5fa;
-          letter-spacing: 0.5px;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
+.title .logo {
+ width: 30px;
+
+}
+
+        
 
         /* NAV */
         .nav {

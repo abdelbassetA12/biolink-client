@@ -44,7 +44,9 @@ export default function Topbar() {
       <div className="topbar">
 
         <div className="title">
-          BioLink
+          <img className='logo' src="/Qevora.log.png" alt="Qevora Logo" />
+
+          evora
         </div>
 
         <div className="actions">
@@ -278,10 +280,17 @@ export default function Topbar() {
 }
 
 .title{
+ display: flex;
+ align-items: center;
   color:white;
   font-size:18px;
   font-weight:800;
   letter-spacing:.5px;
+}
+
+.title .logo {
+ width: 30px;
+
 }
 
 .actions{
