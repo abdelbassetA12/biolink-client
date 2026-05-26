@@ -3,6 +3,14 @@
 import { useState } from 'react';
 import { useAuth } from "../context/AuthContext";
 import QRCodeBox from "./QRCodeBox";
+import { 
+  FaFacebook, 
+
+  FaTwitter, 
+
+  FaWhatsapp,
+  FaTelegram
+} from 'react-icons/fa';
 
 export default function Topbar() {
 
@@ -155,7 +163,7 @@ export default function Topbar() {
                   );
                 }}
               >
-                <span>🟢</span>
+                <span> <FaWhatsapp /> </span>
 
                 <div>
                   <strong>WhatsApp</strong>
@@ -171,7 +179,7 @@ export default function Topbar() {
                   );
                 }}
               >
-                <span>📘</span>
+                <span>  <FaFacebook /></span>
 
                 <div>
                   <strong>Facebook</strong>
@@ -187,7 +195,7 @@ export default function Topbar() {
                   );
                 }}
               >
-                <span>⚫</span>
+                <span> <FaTwitter /></span>
 
                 <div>
                   <strong>X / Twitter</strong>
@@ -203,7 +211,7 @@ export default function Topbar() {
                   );
                 }}
               >
-                <span>🔵</span>
+                <span><FaTelegram /></span>
 
                 <div>
                   <strong>Telegram</strong>
