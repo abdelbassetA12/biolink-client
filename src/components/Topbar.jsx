@@ -15,7 +15,7 @@ export default function Topbar() {
     window.open(`/u/${user.username}`, "_blank");
   };
 
-  const profileUrl = `${window.location.origin}/${user?.username}`;
+  const profileUrl = `${window.location.origin}/u/${user?.username}`;
 
   const downloadQR = () => {
     const canvas = document.querySelector("canvas");
