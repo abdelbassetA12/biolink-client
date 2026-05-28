@@ -79,51 +79,6 @@ export default function VerifyEmail() {
       <div className="verify-page">
 
         {/* LEFT SIDE */}
-        <div className="verify-left">
-
-          <div className="verify-overlay" />
-
-          <div className="verify-content">
-
-            <div className="verify-badge">
-              ✨ Secure Verification
-            </div>
-
-            <h1>
-              Verify your email address to continue.
-            </h1>
-
-            <p>
-              We sent a 6-digit verification code to your email.
-              Enter the code below to activate your account
-              and access your BioLink dashboard.
-            </p>
-
-            <div className="verify-features">
-
-              <div className="feature-card">
-                🔒 Secure Authentication
-              </div>
-
-              <div className="feature-card">
-                ⚡ Fast Verification
-              </div>
-
-              <div className="feature-card">
-                📩 Email Confirmation
-              </div>
-
-              <div className="feature-card">
-                🚀 Instant Access
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        {/* RIGHT SIDE */}
         <div className="verify-right">
 
           <div className="verify-card">
@@ -216,6 +171,53 @@ export default function VerifyEmail() {
           </div>
 
         </div>
+       
+
+        {/* RIGHT SIDE */}
+         <div className="verify-left">
+
+          <div className="verify-overlay" />
+
+          <div className="verify-content">
+
+            <div className="verify-badge">
+              ✨ Secure Verification
+            </div>
+
+            <h1>
+              Verify your email address to continue.
+            </h1>
+
+            <p>
+              We sent a 6-digit verification code to your email.
+              Enter the code below to activate your account
+              and access your BioLink dashboard.
+            </p>
+
+            <div className="verify-features">
+
+              <div className="feature-card">
+                🔒 Secure Authentication
+              </div>
+
+              <div className="feature-card">
+                ⚡ Fast Verification
+              </div>
+
+              <div className="feature-card">
+                📩 Email Confirmation
+              </div>
+
+              <div className="feature-card">
+                🚀 Instant Access
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        
 
       </div>
 
