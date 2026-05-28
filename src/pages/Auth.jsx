@@ -30,7 +30,12 @@ export default function Auth() {
 
   const handleRegister = async () => {
     await register(form);
-    navigate("/");
+      navigate("/verify", {
+      state: {
+        email: form.email
+      }
+    });
+    //navigate("/");
   };
 
   return (

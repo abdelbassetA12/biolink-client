@@ -17,6 +17,8 @@ import NotFound from "./pages/NotFound";
 
 import { Toaster } from "react-hot-toast";
 
+import Verified from "./pages/Verified";
+
 export default function App() {
    const { user } = useAuth();
   return (
@@ -54,6 +56,10 @@ export default function App() {
             )
           }
         />
+        <Route
+  path="/verify"
+  element={<Verified/>}
+/>
 
         <Route
   path="/analytics"
