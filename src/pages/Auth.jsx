@@ -22,11 +22,39 @@ export default function Auth() {
     email: "",
     password: ""
   });
+const handleLogin = async () => {
 
+  const res = await login(form);
+
+  if (res.success) {
+
+    navigate("/");
+
+  } else {
+
+    if (res.error === "EMAIL_NOT_VERIFIED") {
+
+      navigate("/verify", {
+        state: {
+          email: res.email
+        }
+      });
+
+    } else {
+
+      alert(res.error);
+
+    }
+
+  }
+
+};
+/*
   const handleLogin = async () => {
     await login(form);
     navigate("/");
   };
+  */
 
   const handleRegister = async () => {
     await register(form);
@@ -188,8 +216,17 @@ export default function Auth() {
                   Login
                   <FiArrowRight />
                 </button>
+                 <div className="forgot-link">
+
+  <span onClick={() => navigate("/forgot-password")}>
+    Forgot Password?
+  </span>
+
+</div>
 
               </div>
+
+             
 
             )}
 

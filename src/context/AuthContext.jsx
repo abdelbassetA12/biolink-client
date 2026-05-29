@@ -28,6 +28,34 @@ export function AuthProvider({ children }) {
 
   // ✅ login
   const login = async (form) => {
+
+  try {
+
+    await axios.post(
+      `${API_BASE}/api/auth/login`,
+      form,
+      { withCredentials: true }
+    );
+
+    await fetchUser();
+
+    return {
+      success: true
+    };
+
+  } catch (err) {
+
+    return {
+      success: false,
+      error: err.response?.data?.error,
+      email: err.response?.data?.email
+    };
+
+  }
+
+};
+/*
+  const login = async (form) => {
     await axios.post(
       `${API_BASE}/api/auth/login`,
       form,
@@ -35,6 +63,7 @@ export function AuthProvider({ children }) {
     );
     await fetchUser();
   };
+  */
 
   // ✅ register
   const register = async (form) => {
