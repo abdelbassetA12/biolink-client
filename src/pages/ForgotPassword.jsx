@@ -5,8 +5,7 @@ import API_BASE from "../config/api";
 import {
   FiMail,
   FiLock,
-  FiShield,
-  FiArrowRight
+  FiShield
 } from "react-icons/fi";
 
 export default function ForgotPassword() {
@@ -14,18 +13,19 @@ export default function ForgotPassword() {
   // email -> verify -> password
   const [step, setStep] = useState("email");
 
-  const [loading, setLoading] =
-    useState(false);
-
-  const [email, setEmail] =
-    useState("");
+  const [email, setEmail] = useState("");
 
   const [form, setForm] = useState({
     code: "",
     newPassword: ""
   });
 
+  const [loading, setLoading] =
+    useState(false);
+
+  // =========================
   // SEND RESET CODE
+  // =========================
   const handleSendCode = async () => {
 
     try {
@@ -54,7 +54,9 @@ export default function ForgotPassword() {
 
   };
 
-  // VERIFY OTP
+  // =========================
+  // VERIFY CODE
+  // =========================
   const handleVerifyCode = async () => {
 
     try {
@@ -86,7 +88,9 @@ export default function ForgotPassword() {
 
   };
 
+  // =========================
   // UPDATE PASSWORD
+  // =========================
   const handleUpdatePassword =
     async () => {
 
@@ -140,11 +144,15 @@ export default function ForgotPassword() {
               B
             </div>
 
-            <h2>Bio Link</h2>
+            <h2>
+              Bio Link
+            </h2>
 
           </div>
 
-          {/* STEP 1 */}
+          {/* =========================
+              EMAIL STEP
+          ========================= */}
           {step === "email" && (
 
             <div className="form-wrapper">
@@ -168,7 +176,9 @@ export default function ForgotPassword() {
                   placeholder="Email Address"
                   value={email}
                   onChange={(e) =>
-                    setEmail(e.target.value)
+                    setEmail(
+                      e.target.value
+                    )
                   }
                 />
 
@@ -179,22 +189,20 @@ export default function ForgotPassword() {
                 onClick={handleSendCode}
                 disabled={loading}
               >
-
                 {
                   loading
                     ? "Sending..."
-                    : "Send Verification Code"
+                    : "Send Code"
                 }
-
-                <FiArrowRight />
-
               </button>
 
             </div>
 
           )}
 
-          {/* STEP 2 */}
+          {/* =========================
+              VERIFY STEP
+          ========================= */}
           {step === "verify" && (
 
             <div className="form-wrapper">
@@ -204,21 +212,36 @@ export default function ForgotPassword() {
               </h2>
 
               <p className="auth-subtitle">
-                Enter the 6-digit code sent
-                to your email.
+                Enter the verification
+                code sent to:
               </p>
+
+              <div
+                style={{
+                  marginBottom: "20px",
+                  fontWeight: "600",
+                  color: "#6366f1",
+                  textAlign: "center",
+                  wordBreak: "break-word"
+                }}
+              >
+                {email}
+              </div>
 
               <div className="input-box">
 
                 <FiShield className="input-icon" />
 
                 <input
-                  placeholder="Verification Code"
+                  type="text"
+                  placeholder="6-digit code"
                   value={form.code}
+                  maxLength={6}
                   onChange={(e) =>
                     setForm({
                       ...form,
-                      code: e.target.value
+                      code:
+                        e.target.value
                     })
                   }
                 />
@@ -227,25 +250,34 @@ export default function ForgotPassword() {
 
               <button
                 className="submit-btn"
-                onClick={handleVerifyCode}
+                onClick={
+                  handleVerifyCode
+                }
                 disabled={loading}
               >
-
                 {
                   loading
                     ? "Verifying..."
                     : "Verify Code"
                 }
+              </button>
 
-                <FiArrowRight />
-
+              <button
+                className="switch-btn"
+                onClick={() =>
+                  setStep("email")
+                }
+              >
+                Change Email
               </button>
 
             </div>
 
           )}
 
-          {/* STEP 3 */}
+          {/* =========================
+              PASSWORD STEP
+          ========================= */}
           {step === "password" && (
 
             <div className="form-wrapper">
@@ -255,8 +287,9 @@ export default function ForgotPassword() {
               </h2>
 
               <p className="auth-subtitle">
-                Your identity has been
-                verified successfully.
+                Your verification was
+                successful. Create a new
+                secure password.
               </p>
 
               <div className="input-box">
@@ -266,7 +299,9 @@ export default function ForgotPassword() {
                 <input
                   type="password"
                   placeholder="New Password"
-                  value={form.newPassword}
+                  value={
+                    form.newPassword
+                  }
                   onChange={(e) =>
                     setForm({
                       ...form,
@@ -285,15 +320,11 @@ export default function ForgotPassword() {
                 }
                 disabled={loading}
               >
-
                 {
                   loading
                     ? "Updating..."
                     : "Update Password"
                 }
-
-                <FiArrowRight />
-
               </button>
 
             </div>
@@ -312,40 +343,20 @@ export default function ForgotPassword() {
         <div className="auth-content">
 
           <div className="auth-badge">
-            🔒 Secure Recovery
+            🔒 Secure Recovery System
           </div>
 
           <h1>
-            Recover your account safely
-            and securely.
+            Recover your account
+            securely.
           </h1>
 
           <p>
-            Reset your password using
-            secure email verification
-            codes with advanced account
-            protection.
+            We use secure email
+            verification to protect your
+            account and help you reset
+            your password safely.
           </p>
-
-          <div className="auth-features">
-
-            <div className="feature-card">
-              🔐 Secure Verification
-            </div>
-
-            <div className="feature-card">
-              ⚡ Fast Recovery
-            </div>
-
-            <div className="feature-card">
-              🛡 Protected Account
-            </div>
-
-            <div className="feature-card">
-              📧 Email Authentication
-            </div>
-
-          </div>
 
         </div>
 
