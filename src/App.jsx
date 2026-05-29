@@ -19,7 +19,7 @@ import { Toaster } from "react-hot-toast";
 
 import Verified from "./pages/Verified";
 import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
+
 
 export default function App() {
    const { user } = useAuth();
@@ -68,10 +68,6 @@ export default function App() {
   element={<ForgotPassword />}
 />
 
-<Route
-  path="/reset-password"
-  element={<ResetPassword />}
-/>
 
         <Route
   path="/analytics"
