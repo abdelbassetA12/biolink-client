@@ -355,58 +355,7 @@ export default function ForgotPassword() {
 
       </div>
 
-      {/* LEFT */}
-      <div className="auth-left">
-
-        <div className="auth-overlay" />
-
-        <div className="auth-content">
-
-          <div className="auth-badge">
-
-            🔒 Secure Recovery
-
-          </div>
-
-          <h1>
-
-            Recover your account
-            safely and securely.
-
-          </h1>
-
-          <p>
-
-            Reset your password using
-            secure email verification
-            codes with advanced account
-            protection.
-
-          </p>
-
-          <div className="auth-features">
-
-            <div className="feature-card">
-              🔐 Secure Verification
-            </div>
-
-            <div className="feature-card">
-              ⚡ Fast Recovery
-            </div>
-
-            <div className="feature-card">
-              🛡 Protected Account
-            </div>
-
-            <div className="feature-card">
-              📧 Email Authentication
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
+     
 
     </div>
 
