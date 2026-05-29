@@ -158,6 +158,10 @@ const handleLogin = async () => {
                   />
 
                 </div>
+                
+
+
+             
 
                 <button
                   className="submit-btn"
@@ -209,6 +213,18 @@ const handleLogin = async () => {
 
                 </div>
 
+                <div className="form-options">
+
+  <div
+    className="forgot-link"
+    onClick={() => navigate("/forgot-password")}
+  >
+    Forgot Password?
+  </div>
+
+</div>
+
+
                 <button
                   className="submit-btn"
                   onClick={handleLogin}
@@ -216,13 +232,7 @@ const handleLogin = async () => {
                   Login
                   <FiArrowRight />
                 </button>
-                 <div className="forgot-link">
-
-  <span onClick={() => navigate("/forgot-password")}>
-    Forgot Password?
-  </span>
-
-</div>
+                
 
               </div>
 
@@ -594,6 +604,68 @@ const handleLogin = async () => {
           transform:translateY(-2px);
         }
 
+
+
+        /* =========================
+   FORM OPTIONS
+========================= */
+
+.form-options{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+
+  margin-top:-4px;
+  margin-bottom:4px;
+}
+
+.forgot-link{
+  position:relative;
+
+  font-size:14px;
+  font-weight:600;
+
+  color:#6366f1;
+
+  cursor:pointer;
+
+  transition:0.25s;
+
+  padding:4px 2px;
+}
+
+.forgot-link::after{
+  content:"";
+
+  position:absolute;
+  left:0;
+  bottom:-2px;
+
+  width:0%;
+  height:2px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #7c3aed
+    );
+
+  border-radius:999px;
+
+  transition:0.25s;
+}
+
+.forgot-link:hover{
+  color:#4f46e5;
+}
+
+.forgot-link:hover::after{
+  width:100%;
+}
+
+
+
         /* =========================
            TABLET
         ========================= */
@@ -691,6 +763,10 @@ const handleLogin = async () => {
             height:52px;
             font-size:14px;
           }
+
+          .forgot-link{
+    font-size:13px;
+  }
 
           .submit-btn{
             height:52px;
