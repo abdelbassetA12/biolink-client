@@ -1,5 +1,6 @@
 import { socialPlatforms } from '../components/socialPlatforms';
 import axios from 'axios';
+import API_BASE from "../config/api";
 export default function Theme1({ user, links }) {
 
   const inputStyle = {
@@ -178,7 +179,7 @@ if (l.type === "form") {
 
         try {
           await axios.post(
-            `http://localhost:5001/api/profile/submit-form/${l._id}`,
+            `${API_BASE}/api/profile/submit-form/${l._id}`,
             formData
           );
 
