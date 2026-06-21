@@ -252,7 +252,7 @@ if (l.type === "form") {
 
         try {
           await axios.post(
-            `http://localhost:5001/api/profile/submit-form/${l._id}`,
+            `${API_BASE}/api/profile/submit-form/${l._id}`,
             formData
           );
 
@@ -374,7 +374,7 @@ if (l.type === "product") {
   // 🔗 DEFAULT (LINK القديم - لا تلمسه)
   return (
     <a
-      href={`http://localhost:5001/api/profile/redirect/${l._id}`}
+      href={`${API_BASE}/api/profile/redirect/${l._id}`}
       key={l._id}
       target="_blank"
       rel="noreferrer"
