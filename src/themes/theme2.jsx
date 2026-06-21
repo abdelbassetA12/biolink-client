@@ -1,4 +1,38 @@
+import { socialPlatforms } from "../components/socialPlatforms";
+import axios from "axios";
+import API_BASE from "../config/api";
+
 export default function Theme2({ user, links }) {
+  const inputStyle = {
+    width: "100%",
+    padding: "12px 14px",
+    borderRadius: 10,
+    border: "1px solid rgba(0,255,0,0.25)",
+    background: "rgba(0,255,0,0.05)",
+    color: "lime",
+    outline: "none",
+    fontSize: 14,
+    boxSizing: "border-box"
+  };
+
+  const buttonStyle = {
+    padding: "14px",
+    borderRadius: 12,
+    border: "1px solid rgba(0,255,0,0.4)",
+    background: "rgba(0,255,0,0.12)",
+    color: "lime",
+    fontWeight: "bold",
+    cursor: "pointer",
+    transition: "0.3s"
+  };
+
+  const extractYouTubeVideoId = (url = "") => {
+    const regExp =
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/]+)/;
+    const match = url.match(regExp);
+    return match ? match[1] : null;
+  };
+
   return (
     <div
       style={{
@@ -21,7 +55,10 @@ export default function Theme2({ user, links }) {
       >
         {/* Avatar */}
         <img
-          src={user.avatar || 'data:image/jpeg;base64,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'}
+          src={
+            user.avatar ||
+            "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAHBhUPBxAVEhMWDxMYEBIWFRsPEhccFhcWFx0ZGBUYHSgsGx0lHRUXIjIhMSkvOi4uFx8zODMtNygtLisBCgoKDg0ODg0NDysZFRkrKysrNy0tNy03LSsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAbAAEBAAMBAQEAAAAAAAAAAAAABQMEBgIBB//EADgQAQABAgIGBwYFBAMAAAAAAAABAgMEEQUhMVGi4RIVQWNxgZEiMmGhwdETM0Kx8BQ0coIjUmL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8A/WwFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf//Z"
+          }
           alt=""
           style={{
             width: 120,
@@ -38,51 +75,359 @@ export default function Theme2({ user, links }) {
         <h2 style={{ margin: 0 }}>{user.username}</h2>
 
         {/* Bio */}
-        <p style={{ color: "#9aff9a", marginBottom: 25 }}>
-          {user.bio}
-        </p>
+        <p style={{ color: "#9aff9a", marginBottom: 20 }}>{user.bio}</p>
+
+        {/* Social Icons مثل Theme1 */}
+        <div
+          style={{
+            marginBottom: 20,
+            marginTop: 15,
+            display: "flex",
+            justifyContent: "center",
+            gap: 15,
+            flexWrap: "wrap"
+          }}
+        >
+          {user.socialIcons
+            ?.filter((s) => s.active)
+            .map((s, idx) => {
+              const IconComp = socialPlatforms.find(
+                (p) => p.name === s.platform
+              )?.icon;
+
+              return (
+                <a key={idx} href={s.url} target="_blank" rel="noreferrer">
+                  {IconComp ? (
+                    <IconComp size={28} color="lime" />
+                  ) : (
+                    <span style={{ color: "lime" }}>{s.platform}</span>
+                  )}
+                </a>
+              );
+            })}
+        </div>
 
         {/* Links */}
         <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
-          {links.map((l) => (
-            <a
-              href={l.url}
-              key={l._id}
-              target="_blank"
-              rel="noreferrer"
-              style={{ textDecoration: "none" }}
-            >
-              <div
-                style={{
-                  padding: "14px 18px",
-                  borderRadius: 12,
-                  background: "rgba(0,255,0,0.08)",
-                  border: "1px solid rgba(0,255,0,0.4)",
-                  backdropFilter: "blur(8px)",
-                  color: "lime",
-                  fontWeight: "bold",
-                  transition: "0.3s",
-                  cursor: "pointer"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
-                  e.currentTarget.style.background =
-                    "rgba(0,255,0,0.2)";
-                  e.currentTarget.style.boxShadow = "0 0 15px lime";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.background =
-                    "rgba(0,255,0,0.08)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
-              >
-                {l.title}
-              </div>
-            </a>
-          ))}
+          {links
+            ?.filter((l) => l.active)
+            .map((l) => {
+              // =========================
+              // VIDEO
+              // =========================
+              if (l.type === "video" && l.videoUrl) {
+                return (
+                  <div
+                    key={l._id}
+                    style={{
+                      borderRadius: 12,
+                      overflow: "hidden",
+                      border: "1px solid rgba(0,255,0,0.25)",
+                      boxShadow: "0 0 15px rgba(0,255,0,0.12)"
+                    }}
+                  >
+                    <iframe
+                      width="100%"
+                      height="220"
+                      src={l.videoUrl.replace("watch?v=", "embed/")}
+                      frameBorder="0"
+                      allowFullScreen
+                      title={l.title || "video"}
+                    />
+                  </div>
+                );
+              }
+
+              // =========================
+              // WHATSAPP
+              // =========================
+              if (l.type === "whatsapp" && l.phone) {
+                return (
+                  <a
+                    key={l._id}
+                    href={`https://wa.me/${l.phone}?text=${encodeURIComponent(
+                      l.message || ""
+                    )}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <div
+                      style={{
+                        padding: "14px 18px",
+                        borderRadius: 12,
+                        background: "rgba(0,255,0,0.08)",
+                        border: "1px solid rgba(0,255,0,0.4)",
+                        color: "lime",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        backdropFilter: "blur(8px)"
+                      }}
+                    >
+                      💬 Chat on WhatsApp
+                    </div>
+                  </a>
+                );
+              }
+
+              // =========================
+              // YOUTUBE
+              // =========================
+              if (l.type === "youtube") {
+                const url = l.content?.youtubeUrl || l.url;
+                const mode = l.content?.youtubeMode || "link";
+                const videoId = extractYouTubeVideoId(url);
+
+                if (mode === "embed" && videoId) {
+                  return (
+                    <div
+                      key={l._id}
+                      style={{
+                        borderRadius: 12,
+                        overflow: "hidden",
+                        border: "1px solid rgba(0,255,0,0.25)",
+                        boxShadow: "0 0 15px rgba(0,255,0,0.12)"
+                      }}
+                    >
+                      <iframe
+                        width="100%"
+                        height="220"
+                        src={`https://www.youtube.com/embed/${videoId}`}
+                        frameBorder="0"
+                        allowFullScreen
+                        title={l.title || "youtube"}
+                      />
+                    </div>
+                  );
+                }
+              }
+
+              // =========================
+              // FORM
+              // =========================
+              if (l.type === "form") {
+                return (
+                  <form
+                    key={l._id}
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+
+                      const formData = {};
+                      l.content?.formFields?.forEach((field) => {
+                        formData[field.label] = e.target[field.label]?.value;
+                      });
+
+                      try {
+                        await axios.post(
+                          `${API_BASE}/api/profile/submit-form/${l._id}`,
+                          formData
+                        );
+
+                        alert(
+                          l.content?.formSettings?.successMessage || "Sent!"
+                        );
+                        e.target.reset();
+                      } catch (err) {
+                        alert("Error sending form");
+                      }
+                    }}
+                    style={{
+                      background: "rgba(0,255,0,0.05)",
+                      backdropFilter: "blur(10px)",
+                      padding: 20,
+                      borderRadius: 15,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 12,
+                      border: "1px solid rgba(0,255,0,0.2)",
+                      textAlign: "left"
+                    }}
+                  >
+                    {l.content?.formFields?.map((field, i) => (
+                      <div key={i}>
+                        {field.type === "textarea" ? (
+                          <textarea
+                            name={field.label}
+                            placeholder={field.placeholder}
+                            required={field.required}
+                            style={{
+                              ...inputStyle,
+                              minHeight: 100,
+                              resize: "vertical"
+                            }}
+                          />
+                        ) : (
+                          <input
+                            type={field.type}
+                            name={field.label}
+                            placeholder={field.placeholder}
+                            required={field.required}
+                            style={inputStyle}
+                          />
+                        )}
+                      </div>
+                    ))}
+
+                    <button
+                      type="submit"
+                      style={buttonStyle}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "scale(1.03)";
+                        e.currentTarget.style.boxShadow = "0 0 15px lime";
+                        e.currentTarget.style.background =
+                          "rgba(0,255,0,0.18)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "scale(1)";
+                        e.currentTarget.style.boxShadow = "none";
+                        e.currentTarget.style.background =
+                          "rgba(0,255,0,0.12)";
+                      }}
+                    >
+                      {l.content?.formSettings?.submitText || "Send"}
+                    </button>
+                  </form>
+                );
+              }
+
+              // =========================
+              // PRODUCT
+              // =========================
+              if (l.type === "product") {
+                const mode = l.content?.productDisplay || "card";
+
+                if (mode === "link") {
+                  return (
+                    <a
+                      key={l._id}
+                      href={l.content?.productUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        padding: 12,
+                        background: "rgba(0,255,0,0.05)",
+                        borderRadius: 12,
+                        textDecoration: "none",
+                        color: "lime",
+                        border: "1px solid rgba(0,255,0,0.25)"
+                      }}
+                    >
+                      <img
+                        src={l.content?.productData?.image}
+                        alt=""
+                        style={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: 10,
+                          objectFit: "cover"
+                        }}
+                      />
+
+                      <div style={{ textAlign: "left" }}>
+                        <div style={{ fontWeight: 700 }}>
+                          {l.content?.productData?.title}
+                        </div>
+                        <div style={{ color: "#9aff9a", fontWeight: 700 }}>
+                          {l.content?.productData?.price}
+                        </div>
+                      </div>
+                    </a>
+                  );
+                }
+
+                return (
+                  <a
+                    key={l._id}
+                    href={l.content?.productUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: "block",
+                      background: "rgba(0,255,0,0.05)",
+                      borderRadius: 18,
+                      overflow: "hidden",
+                      textDecoration: "none",
+                      color: "lime",
+                      border: "1px solid rgba(0,255,0,0.25)"
+                    }}
+                  >
+                    <img
+                      src={l.content?.productData?.image}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        height: 220,
+                        objectFit: "cover"
+                      }}
+                    />
+
+                    <div style={{ padding: 14, textAlign: "left" }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0 }}>
+                        {l.content?.productData?.title}
+                      </h3>
+
+                      <p
+                        style={{
+                          marginTop: 10,
+                          marginBottom: 0,
+                          fontWeight: 700,
+                          color: "#9aff9a"
+                        }}
+                      >
+                        {l.content?.productData?.price}
+                      </p>
+                    </div>
+                  </a>
+                );
+              }
+
+              // =========================
+              // DEFAULT LINK
+              // =========================
+              return (
+                <a
+                  href={`${API_BASE}/api/profile/redirect/${l._id}`}
+                  key={l._id}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
+                  <div
+                    style={{
+                      padding: "14px 18px",
+                      borderRadius: 12,
+                      background: "rgba(0,255,0,0.08)",
+                      border: "1px solid rgba(0,255,0,0.4)",
+                      backdropFilter: "blur(8px)",
+                      color: "lime",
+                      fontWeight: "bold",
+                      transition: "0.3s",
+                      cursor: "pointer"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.05)";
+                      e.currentTarget.style.background =
+                        "rgba(0,255,0,0.2)";
+                      e.currentTarget.style.boxShadow = "0 0 15px lime";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.background =
+                        "rgba(0,255,0,0.08)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                  >
+                    {l.title}
+                  </div>
+                </a>
+              );
+            })}
         </div>
       </div>
     </div>
   );
 }
+

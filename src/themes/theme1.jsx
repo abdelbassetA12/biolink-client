@@ -407,46 +407,7 @@ if (l.type === "product") {
 
 })}
 
-{/*
-{links.filter(l => l.active).map((l) => (
-          //{links.map((l) => (
-            // 🎥 VIDEO
- 
 
- 
-           
-           <a
-    href={`http://localhost:5001/api/profile/redirect/${l._id}`}
-    key={l._id}
-    target="_blank"
-    rel="noreferrer"
-    style={{ textDecoration: "none" }}
-  >
-              <div
-                style={{
-                  padding: "14px 18px",
-                  borderRadius: 10,
-                  background: "#38bdf8",
-                  color: "white",
-                  fontWeight: "bold",
-                  transition: "0.3s",
-                  cursor: "pointer"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
-                  e.currentTarget.style.boxShadow =
-                    "0 0 15px rgba(56,189,248,0.7)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
-              >
-                {l.title}
-              </div>
-            </a>
-          ))}
-*/}
           
         </div>
       </div>

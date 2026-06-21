@@ -26,6 +26,7 @@ export default function App() {
   return (
     <BrowserRouter>
          {!user && <Navbar />}
+         
     
         <Routes>
 
