@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import { useAuth } from "./context/AuthContext";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
+ 
 import Dashboard from "./pages/Dashboard";
 
 import Profile from "./pages/Profile";
@@ -29,6 +30,7 @@ export default function App() {
          
     
         <Routes>
+         
 
         
            <Route path="/auth" element={!user ? <Auth /> : <Navigate to="/" />} />
