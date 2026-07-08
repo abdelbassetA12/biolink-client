@@ -32,14 +32,7 @@ export default function Hero() {
 
         <div className="hero-left">
 
-          <div className="hero-logo">
-
-            <img
-              src="/Qevora.log.png"
-              alt="Qevora"
-            />
-
-          </div>
+           
 
           <div className="hero-badge">
 
