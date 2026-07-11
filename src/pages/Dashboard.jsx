@@ -182,47 +182,7 @@ setUser(prev => ({
     toast.error("Upload failed");
   }
 };
-/*
-  const saveProfile = async () => {
-
-  if (!user) return;
-
-  try {
-
-    const res = await axios.post(
-      `${API_BASE}/api/profile/update`,
-      {
-        newUsername: profile.username,
-        bio: profile.bio,
-        avatar: profile.avatar,
-        theme: profile.theme
-      },
-      {
-        withCredentials: true
-      }
-    );
-
-    setUser(res.data);
-
-    localStorage.setItem(
-      'user',
-      JSON.stringify(res.data)
-    );
-
-    toast.success("Profile updated!");
-
-  } catch (err) {
-
-    console.log(err.response?.data);
-
-    toast.error(
-      err.response?.data?.error ||
-      "Error saving profile"
-    );
-
-  }
-
-};*/
+ 
 
   const saveProfile = async () => {
     if (!user) return;
@@ -1983,9 +1943,7 @@ if (!user) return null;
    GLOBAL
 ========================= */
 
-*{
-  box-sizing:border-box;
-}
+ 
 
 input:focus,
 select:focus,

@@ -158,9 +158,7 @@ export default function ThemesPage() {
       </div>
 
       <style>{`
-  * {
-    box-sizing: border-box;
-  }
+  
 
   .themes-page {
     min-height: 100vh;
