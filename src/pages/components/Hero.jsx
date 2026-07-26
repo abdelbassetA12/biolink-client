@@ -1,5 +1,5 @@
  
-
+import { Link } from "react-router-dom";
 import {
   FaRocket,
   FaPlayCircle,
@@ -68,13 +68,13 @@ export default function Hero() {
 
           <div className="hero-buttons">
 
-            <button className="primary-btn">
-
-              Get Started Free
-
+            <Link className="primary-btn" to="/auth">
+             Get Started Free
               <FaArrowRight />
 
-            </button>
+            </Link>
+
+           
 
             <button className="secondary-btn">
 

@@ -1,423 +1,1499 @@
-import { socialPlatforms } from '../components/socialPlatforms';
-import axios from 'axios';
-import API_BASE from "../config/api";
- 
+import LinkRenderer from "../components/LinkRenderer";
+import SocialRenderer from "../components/SocialRenderer";
+
 export default function Theme1({ user, links }) {
 
-  const inputStyle = {
-  width: "90%",
-  padding: "12px 14px",
-  borderRadius: 10,
-  border: "1px solid rgba(255,255,255,0.1)",
-  background: "rgba(255,255,255,0.05)",
-  color: "white",
-  outline: "none",
-  fontSize: 14,
-};
+  const theme = "theme1";
 
-const buttonStyle = {
-  padding: "14px",
-  borderRadius: 10,
-  border: "none",
-  background: "#38bdf8",
-  color: "white",
-  fontWeight: "bold",
-  cursor: "pointer",
-  transition: "0.3s"
-};
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#0f172a",
-        color: "white",
-     
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 20,
-      
-        fontFamily: "Arial"
-      }}
-    >
 
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 400,
-          textAlign: "center"
-        }}
-      >
-       
-        <img
-          src={user.avatar || "data:image/jpeg;base64,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"}
-          alt=""
-          style={{
-            width: 120,
-            height: 120,
-            borderRadius: "50%",
-            objectFit: "cover",
-            border: "3px solid #38bdf8",
-            boxShadow: "0 0 20px rgba(56,189,248,0.5)",
-            marginBottom: 15
-          }}
-        />
+    <div className={`${theme}-container`}>
 
-      
-        <h2 style={{ margin: 0 }}>{user.username}</h2>
+      {/* ===============================
+          BACKGROUND
+      =============================== */}
 
-       
-        <p style={{ color: "#cbd5f5", marginBottom: 25 }}>
-          {user.bio}
-        </p>
+      <div className={`${theme}-gradient`} />
 
+      <div className={`${theme}-circle circle-one`} />
+      <div className={`${theme}-circle circle-two`} />
+      <div className={`${theme}-circle circle-three`} />
 
-        
-        <div style={{ marginBottom: 15,marginTop: 15, display: "flex", justifyContent: "center", gap: 15 }}>
-  {user.socialIcons?.filter(s => s.active).map((s, idx) => {
-    // البحث عن الأيقونة حسب اسم المنصة
-    const IconComp = socialPlatforms.find(p => p.name === s.platform)?.icon;
-    return (
-      <a key={idx} href={s.url} target="_blank" rel="noreferrer">
-        {IconComp ? <IconComp size={30} color="#38bdf8" /> 
-                  : <span>{s.platform}</span>} 
-      </a>
-    );
-  })}
-</div>
+      {/* ===============================
+          MAIN CARD
+      =============================== */}
 
+      <main className={`${theme}-card`}>
 
-<div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 15
-      }}
-    >
-         {links.filter(l => l.active).map((l) => {
-      
-        // 🎥 VIDEO
-        if (l.type === "video" && l.videoUrl) {
-          return (
-            <div key={l._id} style={{ borderRadius: 10, overflow: "hidden" }}>
-              <iframe
-                width="100%"
-                height="220"
-                src={l.videoUrl.replace("watch?v=", "embed/")}
-                frameBorder="0"
-                allowFullScreen
-              />
-            </div>
-          );
-        }
-      
-        // 💬 WHATSAPP
-        if (l.type === "whatsapp" && l.phone) {
-          return (
-            <a
-              key={l._id}
-              href={`https://wa.me/${l.phone}?text=${encodeURIComponent(l.message || "")}`}
-              target="_blank"
-              rel="noreferrer"
-              style={{ textDecoration: "none" }}
-            >
-              <div
-                style={{
-                  padding: "14px 18px",
-                  borderRadius: 10,
-                  background: "#22c55e",
-                  color: "white",
-                  fontWeight: "bold",
-                  textAlign: "center"
-                }}
-              >
-                💬 Chat on WhatsApp
-              </div>
-            </a>
-          );
-        }
-      
-        if (l.type === "youtube") {
-        const url = l.content?.youtubeUrl;
-        const mode = l.content?.youtubeMode;
-      
-        const videoMatch = url?.match(/v=([^&]+)/);
-        const videoId = videoMatch ? videoMatch[1] : null;
-      
-        // 🎥 EMBED
-        if (mode === "embed" && videoId) {
-          return (
-            <iframe
-              width="100%"
-              height="200"
-              src={`https://www.youtube.com/embed/${videoId}`}
-              frameBorder="0"
-              allowFullScreen
-            />
-          );
-        }
-      
-        // 📺 PLAYLIST
-        if (mode === "playlist") {
-          const channelId = extractChannelId(url); // دالة تكتبها
-          return (
-            <iframe
-              width="100%"
-              height="300"
-              src={`https://www.youtube.com/embed?listType=user_uploads&list=${channelId}`}
-            />
-          );
-        }
-      
-        // 🔗 DEFAULT → redirect
-      }
-      
-      if (l.type === "form") {
-        return (
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-      
-              const formData = {};
-              l.content.formFields.forEach(field => {
-                formData[field.label] = e.target[field.label].value;
-              });
-      
-              try {
-                await axios.post(
-                  `${API_BASE}/api/profile/submit-form/${l._id}`,
-                  formData
-                );
-      
-                alert(l.content.formSettings?.successMessage || "Sent!");
-              } catch (err) {
-                alert("Error sending form");
-              }
-            }}
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              backdropFilter: "blur(10px)",
-              padding: 20,
-              borderRadius: 15,
-              display: "flex",
-              flexDirection: "column",
-              gap: 12,
-              border: "1px solid rgba(255,255,255,0.1)"
-            }}
-          >
-            {l.content.formFields.map((field, i) => (
-              <div key={i}>
-                {field.type === "textarea" ? (
-                  <textarea
-                    name={field.label}
-                    placeholder={field.placeholder}
-                    required={field.required}
-                    style={inputStyle}
-                  />
-                ) : (
-                  <input
-                    type={field.type}
-                    name={field.label}
-                    placeholder={field.placeholder}
-                    required={field.required}
-                    style={inputStyle}
-                  />
-                )}
-              </div>
-            ))}
-      
-            <button
-              type="submit"
-              style={buttonStyle}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 0 15px rgba(56,189,248,0.7)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              {l.content.formSettings?.submitText || "Send"}
-            </button>
-          </form>
-        );
-      }
-      
-      if (l.type === "form") {
-        return (
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-      
-              const formData = {};
-              l.content.formFields.forEach(field => {
-                formData[field.label] = e.target[field.label].value;
-              });
-      
-              try {
-                await axios.post(
-                  `${API_BASE}/api/profile/submit-form/${l._id}`,
-                  formData
-                );
-      
-                alert(l.content.formSettings?.successMessage || "Sent!");
-              } catch (err) {
-                alert("Error sending form");
-              }
-            }}
-          >
-            {l.content.formFields.map((field, i) => (
-              <div key={i}>
-                {field.type === "textarea" ? (
-                  <textarea
-                    name={field.label}
-                    placeholder={field.placeholder}
-                    required={field.required}
-                  />
-                ) : (
-                  <input
-                    type={field.type}
-                    name={field.label}
-                    placeholder={field.placeholder}
-                    required={field.required}
-                  />
-                )}
-              </div>
-            ))}
-      
-            <button type="submit">
-              {l.content.formSettings?.submitText || "Send"}
-            </button>
-          </form>
-        );
-      }
-      
-      if (l.type === "product") {
-      
-        const mode = l.content?.productDisplay || "card";
-      
-        // 🔥 LINK MODE أولاً
-        if (mode === "link") {
-          return (
-            <a
-              href={l.content.productUrl}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: 12,
-                background: "#fff",
-                borderRadius: 12,
-                textDecoration: "none",
-                color: "#111"
-              }}
-            >
-              <img
-                src={l.content.productData?.image}
-                style={{ width: 60, height: 60, borderRadius: 10 }}
-              />
-      
-              <div>
-                <div style={{ fontWeight: 600 }}>
-                  {l.content.productData?.title}
-                </div>
-      
-                <div style={{ color: "#10b981", fontWeight: 700 }}>
-                  {l.content.productData?.price}
-                </div>
-              </div>
-            </a>
-          );
-        }
-      
-        // 🟢 DEFAULT CARD MODE
-        return (
-          <a
-            href={l.content.productUrl}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              display: "block",
-              background: "#fff",
-              borderRadius: 18,
-              overflow: "hidden",
-              textDecoration: "none",
-              color: "#111",
-              marginBottom: 16
-            }}
-          >
+        {/* ===============================
+            PROFILE
+        =============================== */}
+
+        <section className={`${theme}-profile`}>
+
+          <div className={`${theme}-avatar-wrapper`}>
+
+            <div className={`${theme}-avatar-glow`} />
+
             <img
-              src={l.content.productData?.image}
-              style={{
-                width: "100%",
-                height: 220,
-                objectFit: "cover"
-              }}
+              src={user?.avatar || ""}
+              alt={user?.username || "Profile"}
+              className={`${theme}-avatar`}
             />
-      
-            <div style={{ padding: 14 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 700 }}>
-                {l.content.productData?.title}
-              </h3>
-      
-              <p style={{
-                marginTop: 10,
-                fontWeight: 700,
-                color: "#10b981"
-              }}>
-                {l.content.productData?.price}
-              </p>
-            </div>
-          </a>
-        );
-      }
-      
-      
-        // 🔗 DEFAULT (LINK القديم - لا تلمسه)
-        return (
-          <a
-            href={`${API_BASE}/api/profile/redirect/${l._id}`}
-            key={l._id}
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: "none" }}
-          >
-            <div
-              style={{
-                padding: "14px 18px",
-                borderRadius: 10,
-                background: "#38bdf8",
-                color: "white",
-                fontWeight: "bold",
-                transition: "0.3s",
-                cursor: "pointer"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 0 15px rgba(56,189,248,0.7)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              {l.title}
-            </div>
-          </a>
-        );
-      
-      })}
-    </div>
-    
-        
-      </div>
-    </div>
-  );
+
+          </div>
+
+          <h1 className={`${theme}-username`}>
+            {user?.username || "Your Name"}
+          </h1>
+
+          {user?.bio && (
+
+            <p className={`${theme}-bio`}>
+              {user.bio}
+            </p>
+
+          )}
+
+        </section>
+
+        {/* ===============================
+            SOCIALS
+        =============================== */}
+
+        <section className={`${theme}-social-section`}>
+
+          <SocialRenderer
+            user={user}
+            theme={theme}
+          />
+
+        </section>
+
+        {/* ===============================
+            LINKS
+        =============================== */}
+
+        <section className={`${theme}-links`}>
+
+          <LinkRenderer
+            links={links || []}
+            theme={theme}
+          />
+
+        </section>
+
+        {/* ===============================
+            FOOTER
+        =============================== */}
+
+        <footer className={`${theme}-footer`}>
+
+          <span>Made with</span>
+
+          <strong>Qevora</strong>
+
+        </footer>
+
+      </main>
+
+      <style>
+
+        {`
+
+/* =====================================================
+   RESET
+===================================================== */
+
+.theme1-container,
+.theme1-container *,
+.theme1-container *::before,
+.theme1-container *::after{
+
+box-sizing:border-box;
+
+}
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.theme1-container{
+
+position:relative;
+
+width:100%;
+
+min-height:100vh;
+
+padding:70px 20px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:flex-start;
+
+overflow:hidden;
+
+background:#f8fafc;
+
+font-family:
+
+Inter,
+
+system-ui,
+
+sans-serif;
+
+}
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+.theme1-gradient{
+
+position:fixed;
+
+inset:0;
+
+background:
+
+linear-gradient(
+180deg,
+#ffffff,
+#f8fafc
+);
+
+z-index:-5;
+
+}
+
+/* =====================================================
+   FLOATING CIRCLES
+===================================================== */
+
+.theme1-circle{
+
+position:fixed;
+
+border-radius:50%;
+
+filter:blur(80px);
+
+opacity:.45;
+
+z-index:-4;
+
+animation:
+
+theme1Float 12s ease-in-out infinite;
+
+}
+
+.circle-one{
+
+width:300px;
+
+height:300px;
+
+background:#818cf8;
+
+top:-120px;
+
+left:-120px;
+
+}
+
+.circle-two{
+
+width:260px;
+
+height:260px;
+
+background:#c084fc;
+
+right:-80px;
+
+top:120px;
+
+}
+
+.circle-three{
+
+width:350px;
+
+height:350px;
+
+background:#f9a8d4;
+
+bottom:-160px;
+
+left:30%;
+
+}
+
+@keyframes theme1Float{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(40px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.theme1-card{
+
+width:100%;
+
+max-width:560px;
+
+background:#ffffff;
+
+border-radius:34px;
+
+padding:50px 30px;
+
+box-shadow:
+
+0 30px 80px rgba(15,23,42,.08);
+
+border:1px solid #e2e8f0;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.theme1-profile{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+text-align:center;
+
+}
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+.theme1-avatar-wrapper{
+
+position:relative;
+
+width:130px;
+
+height:130px;
+
+margin-bottom:24px;
+
+}
+
+.theme1-avatar-glow{
+
+position:absolute;
+
+inset:-8px;
+
+border-radius:50%;
+
+background:
+
+linear-gradient(
+
+135deg,
+
+#4f46e5,
+
+#8b5cf6,
+
+#ec4899
+
+);
+
+filter:blur(20px);
+
+opacity:.30;
+
+}
+
+.theme1-avatar{
+
+position:relative;
+
+width:130px;
+
+height:130px;
+
+object-fit:cover;
+
+border-radius:50%;
+
+border:6px solid #ffffff;
+
+box-shadow:
+
+0 15px 40px rgba(0,0,0,.12);
+
+transition:.4s;
+
+}
+
+.theme1-avatar:hover{
+
+transform:scale(1.05);
+
+}
+
+/* =====================================================
+   USERNAME
+===================================================== */
+
+.theme1-username{
+
+margin:0;
+
+font-size:32px;
+
+font-weight:800;
+
+color:#0f172a;
+
+}
+
+/* =====================================================
+   BIO
+===================================================== */
+
+.theme1-bio{
+
+margin-top:12px;
+
+max-width:430px;
+
+font-size:15px;
+
+line-height:1.8;
+
+color:#64748b;
+
+}
+
+/* =====================================================
+   SOCIAL
+===================================================== */
+
+.theme1-social-section{
+
+margin-top:35px;
+
+margin-bottom:35px;
+
+}
+
+.theme1-socials{
+
+display:flex;
+
+justify-content:center;
+
+gap:14px;
+
+flex-wrap:wrap;
+
+}
+
+.theme1-social-link{
+
+width:52px;
+
+height:52px;
+
+border-radius:50%;
+
+background:#ffffff;
+
+border:1px solid #e2e8f0;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+transition:.35s;
+
+box-shadow:
+
+0 10px 25px rgba(15,23,42,.05);
+
+}
+
+.theme1-social-link:hover{
+
+transform:translateY(-5px) scale(1.08);
+
+background:#4f46e5;
+
+color:#fff;
+
+}
+
+/* باقي CSS في الجزء الثاني */
+/* =========================================================
+   LINKS
+========================================================= */
+
+.theme1-links{
+
+width:100%;
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+/* container */
+
+.theme1-link{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+width:100%;
+
+}
+
+/* =========================================================
+   DEFAULT LINK
+========================================================= */
+
+.theme1-default-link{
+
+position:relative;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+width:100%;
+
+min-height:72px;
+
+padding:18px 24px;
+
+background:#fff;
+
+border:1px solid #E2E8F0;
+
+border-radius:22px;
+
+color:#0F172A;
+
+font-weight:700;
+
+font-size:15px;
+
+text-decoration:none;
+
+overflow:hidden;
+
+transition:.35s;
+
+box-shadow:
+
+0 10px 25px rgba(15,23,42,.05);
+
+}
+
+.theme1-default-link::after{
+
+content:"→";
+
+position:absolute;
+
+right:24px;
+
+font-size:18px;
+
+transition:.35s;
+
+color:#64748B;
+
+}
+
+.theme1-default-link:hover{
+
+transform:translateY(-6px);
+
+border-color:#6366F1;
+
+box-shadow:
+
+0 18px 40px rgba(79,70,229,.15);
+
+}
+
+.theme1-default-link:hover::after{
+
+right:18px;
+
+color:#4F46E5;
+
+}
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+.theme1-whatsapp-link{
+
+display:block;
+
+text-decoration:none;
+
+width:100%;
+
+}
+
+.theme1-whatsapp{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+min-height:72px;
+
+border-radius:22px;
+
+font-weight:700;
+
+font-size:15px;
+
+background:linear-gradient(
+135deg,
+#22C55E,
+#16A34A
+);
+
+color:#fff;
+
+transition:.35s;
+
+box-shadow:
+
+0 15px 35px rgba(34,197,94,.20);
+
+}
+
+.theme1-whatsapp:hover{
+
+transform:translateY(-5px);
+
+}
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.theme1-product-card{
+
+display:flex;
+
+flex-direction:column;
+
+overflow:hidden;
+
+background:#fff;
+
+border-radius:24px;
+
+border:1px solid #E2E8F0;
+
+text-decoration:none;
+
+transition:.4s;
+
+box-shadow:
+
+0 15px 40px rgba(15,23,42,.06);
+
+}
+
+.theme1-product-card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:
+
+0 25px 60px rgba(15,23,42,.12);
+
+}
+
+.theme1-product-image{
+
+width:100%;
+
+height:320px;
+
+object-fit:cover;
+
+transition:.6s;
+
+}
+
+.theme1-product-card:hover
+.theme1-product-image{
+
+transform:scale(1.06);
+
+}
+
+.theme1-product-content{
+
+padding:22px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
+}
+
+.theme1-product-title{
+
+font-size:18px;
+
+font-weight:800;
+
+color:#0F172A;
+
+}
+
+.theme1-product-price{
+
+font-size:18px;
+
+font-weight:800;
+
+color:#4F46E5;
+
+}
+
+/* =========================================================
+   PRODUCT LINK
+========================================================= */
+
+.theme1-product-link{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+padding:14px;
+
+border-radius:22px;
+
+background:#fff;
+
+border:1px solid #E2E8F0;
+
+text-decoration:none;
+
+transition:.35s;
+
+box-shadow:
+
+0 12px 28px rgba(15,23,42,.05);
+
+}
+
+.theme1-product-link:hover{
+
+transform:translateY(-5px);
+
+}
+
+.theme1-product-link-image{
+
+width:82px;
+
+height:82px;
+
+border-radius:18px;
+
+object-fit:cover;
+
+flex-shrink:0;
+
+}
+
+.theme1-product-link-info{
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
+min-width:0;
+
+flex:1;
+
+}
+
+.theme1-product-link
+.theme1-product-title{
+
+font-size:16px;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+}
+
+.theme1-product-link
+.theme1-product-price{
+
+font-size:15px;
+
+}
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.theme1-video,
+.theme1-youtube{
+
+overflow:hidden;
+
+border-radius:24px;
+
+background:#000;
+
+box-shadow:
+
+0 20px 45px rgba(15,23,42,.15);
+
+}
+
+.theme1-video iframe,
+.theme1-youtube iframe{
+
+width:100%;
+
+height:100%;
+
+border:none;
+
+aspect-ratio:16/9;
+
+}
+
+.theme1-youtube-playlist{
+
+height:520px;
+
+overflow:hidden;
+
+border-radius:24px;
+
+}
+
+.theme1-youtube-playlist iframe{
+
+width:100%;
+
+height:100%;
+
+border:none;
+
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.theme1-form{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+padding:26px;
+
+background:#fff;
+
+border-radius:24px;
+
+border:1px solid #E2E8F0;
+
+box-shadow:
+
+0 15px 35px rgba(15,23,42,.05);
+
+}
+
+.theme1-form-fields{
+
+display:flex;
+
+flex-direction:column;
+
+gap:14px;
+
+}
+
+.theme1-form-input{
+
+width:100%;
+
+padding:16px;
+
+border-radius:16px;
+
+border:1px solid #CBD5E1;
+
+background:#F8FAFC;
+
+outline:none;
+
+font-size:15px;
+
+transition:.3s;
+
+}
+
+.theme1-form-input:focus{
+
+border-color:#6366F1;
+
+background:#fff;
+
+box-shadow:
+
+0 0 0 4px rgba(99,102,241,.10);
+
+}
+
+textarea.theme1-form-input{
+
+resize:vertical;
+
+min-height:130px;
+
+}
+
+.theme1-form-button{
+
+height:56px;
+
+border:none;
+
+border-radius:18px;
+
+background:linear-gradient(
+135deg,
+#4F46E5,
+#7C3AED
+);
+
+color:#fff;
+
+font-size:15px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.35s;
+
+}
+
+.theme1-form-button:hover{
+
+transform:translateY(-3px);
+
+box-shadow:
+
+0 20px 40px rgba(79,70,229,.20);
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.theme1-footer{
+
+margin-top:36px;
+
+display:flex;
+
+justify-content:center;
+
+gap:6px;
+
+font-size:12px;
+
+color:#64748B;
+
+}
+
+.theme1-footer strong{
+
+color:#4F46E5;
+
 }
 
 
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+.theme1-card{
+    animation:theme1Card .8s ease;
+}
+
+@keyframes theme1Card{
+
+from{
+
+opacity:0;
+
+transform:translateY(35px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+.theme1-profile{
+
+animation:theme1Fade .8s ease .15s both;
+
+}
+
+.theme1-social-section{
+
+animation:theme1Fade .8s ease .3s both;
+
+}
+
+.theme1-links{
+
+animation:theme1Fade .8s ease .45s both;
+
+}
+
+.theme1-footer{
+
+animation:theme1Fade .8s ease .6s both;
+
+}
+
+@keyframes theme1Fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.theme1-card::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:8px;
+
+background:linear-gradient(
+90deg,
+#4F46E5,
+#8B5CF6,
+#EC4899
+);
+
+}
+
+.theme1-card::after{
+
+content:"";
+
+position:absolute;
+
+right:-120px;
+
+top:-120px;
+
+width:220px;
+
+height:220px;
+
+border-radius:50%;
+
+background:rgba(99,102,241,.05);
+
+pointer-events:none;
+
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.theme1-container::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+.theme1-container::-webkit-scrollbar-thumb{
+
+background:#CBD5E1;
+
+border-radius:999px;
+
+}
+
+.theme1-container::-webkit-scrollbar-track{
+
+background:transparent;
+
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:768px){
+
+.theme1-container{
+
+padding:40px 16px;
+
+}
+
+.theme1-card{
+
+padding:40px 22px;
+
+border-radius:28px;
+
+}
+
+.theme1-avatar{
+
+width:110px;
+
+height:110px;
+
+}
+
+.theme1-avatar-wrapper{
+
+width:110px;
+
+height:110px;
+
+}
+
+.theme1-username{
+
+font-size:28px;
+
+}
+
+.theme1-bio{
+
+font-size:14px;
+
+}
+
+.theme1-product-image{
+
+height:260px;
+
+}
+
+.theme1-youtube-playlist{
+
+height:420px;
+
+}
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:480px){
+
+.theme1-container{
+
+padding:18px 10px;
+
+}
+
+.theme1-card{
+
+padding:28px 16px;
+
+border-radius:24px;
+
+}
+
+.theme1-avatar{
+
+width:90px;
+
+height:90px;
+
+border-width:4px;
+
+}
+
+.theme1-avatar-wrapper{
+
+width:90px;
+
+height:90px;
+
+margin-bottom:18px;
+
+}
+
+.theme1-username{
+
+font-size:23px;
+
+}
+
+.theme1-bio{
+
+font-size:13px;
+
+line-height:1.7;
+
+}
+
+.theme1-social-link{
+
+width:44px;
+
+height:44px;
+
+}
+
+.theme1-default-link{
+
+min-height:60px;
+
+padding:14px 18px;
+
+font-size:14px;
+
+border-radius:18px;
+
+}
+
+.theme1-default-link::after{
+
+right:18px;
+
+}
+
+.theme1-whatsapp{
+
+min-height:60px;
+
+border-radius:18px;
+
+font-size:14px;
+
+}
+
+.theme1-product-image{
+
+height:220px;
+
+}
+
+.theme1-product-content{
+
+padding:16px;
+
+}
+
+.theme1-product-title{
+
+font-size:16px;
+
+}
+
+.theme1-product-price{
+
+font-size:16px;
+
+}
+
+.theme1-product-link{
+
+padding:10px;
+
+gap:12px;
+
+border-radius:18px;
+
+}
+
+.theme1-product-link-image{
+
+width:68px;
+
+height:68px;
+
+border-radius:14px;
+
+}
+
+.theme1-product-link .theme1-product-title{
+
+font-size:14px;
+
+}
+
+.theme1-product-link .theme1-product-price{
+
+font-size:13px;
+
+}
+
+.theme1-form{
+
+padding:18px;
+
+border-radius:20px;
+
+}
+
+.theme1-form-input{
+
+padding:14px;
+
+font-size:14px;
+
+}
+
+.theme1-form-button{
+
+height:52px;
+
+font-size:14px;
+
+}
+
+.theme1-youtube-playlist{
+
+height:360px;
+
+}
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:360px){
+
+.theme1-card{
+
+padding:22px 12px;
+
+}
+
+.theme1-avatar{
+
+width:78px;
+
+height:78px;
+
+}
+
+.theme1-avatar-wrapper{
+
+width:78px;
+
+height:78px;
+
+}
+
+.theme1-username{
+
+font-size:20px;
+
+}
+
+.theme1-social-link{
+
+width:40px;
+
+height:40px;
+
+}
+
+.theme1-default-link{
+
+min-height:54px;
+
+font-size:13px;
+
+padding:12px;
+
+}
+
+.theme1-product-image{
+
+height:190px;
+
+}
+
+.theme1-product-content{
+
+padding:14px;
+
+}
+
+.theme1-product-title{
+
+font-size:14px;
+
+}
+
+.theme1-product-price{
+
+font-size:14px;
+
+}
+
+.theme1-form{
+
+padding:14px;
+
+}
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce){
+
+.theme1-card,
+.theme1-profile,
+.theme1-social-section,
+.theme1-links,
+.theme1-footer{
+
+animation:none;
+
+}
+
+.theme1-container *,
+.theme1-container *::before,
+.theme1-container *::after{
+
+transition:none !important;
+
+}
+
+}
+
+`}
+
+      </style>
+
+    </div>
+
+  );
+
+}

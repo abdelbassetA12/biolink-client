@@ -1,122 +1,167 @@
-import { socialPlatforms } from '../components/socialPlatforms';
-
+ 
+import { socialPlatforms } from "../components/socialPlatforms";
+import LinkRenderer from "../components/LinkRenderer";
+import SocialRenderer from "../components/SocialRenderer";
+import axios from 'axios';
+import API_BASE from "../config/api";
 export default function Theme5({ user, links }) {
+
+  const theme = "theme5";
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #1e293b, #0f172a, #020617)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 20,
-        fontFamily: "Arial",
-        color: "white"
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 420,
-          backdropFilter: "blur(15px)",
-          background: "rgba(255,255,255,0.05)",
-          borderRadius: 20,
-          padding: 25,
-          textAlign: "center",
-          boxShadow: "0 10px 40px rgba(0,0,0,0.5)"
-        }}
-      >
-        {/* Avatar */}
+    <div className={`${theme}-container`}>
+
+      <div className={`${theme}-card`}>
+
         <img
-          src={user.avatar || 'data:image/jpeg;base64,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'}
+          className={`${theme}-avatar`}
+          src={user.avatar || ""}
           alt=""
-          style={{
-            width: 110,
-            height: 110,
-            borderRadius: "50%",
-            objectFit: "cover",
-            marginBottom: 10,
-            border: "3px solid white"
-          }}
         />
 
-        {/* Username */}
-        <h2 style={{ margin: "5px 0" }}>{user.username}</h2>
+        <h2 className={`${theme}-username`}>
+          {user.username}
+        </h2>
 
-        {/* Bio */}
-        <p style={{ color: "#94a3b8", marginBottom: 20 }}>
+        <p className={`${theme}-bio`}>
           {user.bio}
         </p>
 
-
-        {/* Social Icons */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 20 }}>
-          {user.socialIcons?.filter(s => s.active).map((s, idx) => {
-            const IconComp = socialPlatforms.find(p => p.name === s.platform)?.icon;
-            return (
-              <a >
-                <div
-                  style={{
-                    padding: "10px 12px",
-                    borderRadius: "50%",
-                    background: "rgba(255,255,255,0.1)",
-                    transition: "0.3s"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.2)";
-                    e.currentTarget.style.background = "#38bdf8";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-                  }}
-                >
-                
-                  {IconComp ? <IconComp size={22} /> : null}
-                  </div>
-              
-              </a>
-            );
-          })}
-        </div>
-
         
+        <SocialRenderer
+  user={user}
+  theme={theme}
+/>
 
-        {/* Links */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {links.filter(l => l.active).map((l) => (
-            <a
-              key={l._id}
-              href={l.url}
-              target="_blank"
-              rel="noreferrer"
-              style={{ textDecoration: "none" }}
-            >
-              <div
-                style={{
-                  padding: "12px",
-                  borderRadius: 12,
-                  background: "linear-gradient(90deg, #38bdf8, #6366f1)",
-                  fontWeight: "bold",
-                  transition: "0.3s",
-                 
-                   
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow = "0 10px 20px rgba(0,0,0,0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
-              >
-                {l.title}
-              </div>
-            </a>
-          ))}
-        </div>
+        <LinkRenderer
+          links={links}
+          theme={theme}
+        />
+
       </div>
+      <style>
+        {`
+        .theme5-container{
+    min-height:100vh;
+    background:#0f172a;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    font-family:Arial,sans-serif;
+}
+
+.theme5-card{
+    width:100%;
+    max-width:400px;
+    text-align:center;
+}
+
+.theme5-avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #38bdf8;
+    box-shadow:0 0 20px rgba(56,189,248,.5);
+    margin-bottom:15px;
+}
+
+.theme5-username{
+    margin:0;
+    font-size:28px;
+    font-weight:700;
+}
+
+.theme5-bio{
+    color:#cbd5f5;
+    margin:15px 0 25px;
+    line-height:1.6;
+}
+
+.theme5-socials{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    margin:15px 0 20px;
+    flex-wrap:wrap;
+}
+
+.theme5-social-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.theme5-social-link:hover{
+    transform:scale(1.15);
+}
+
+.theme5-social-icon{
+    font-size:30px;
+    color:#38bdf8;
+    transition:.3s;
+}
+
+.theme5-social-link:hover .theme6-social-icon{
+    color:#7dd3fc;
+}
+
+.theme5-link{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+@media (max-width:768px){
+
+    .theme5-card{
+        max-width:100%;
+    }
+
+    .theme5-avatar{
+        width:100px;
+        height:100px;
+    }
+
+    .theme5-username{
+        font-size:24px;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .theme5-container{
+        padding:15px;
+    }
+
+    .theme5-avatar{
+        width:90px;
+        height:90px;
+    }
+
+    .theme5-username{
+        font-size:22px;
+    }
+
+    .theme5-bio{
+        font-size:14px;
+    }
+
+    .theme5-social-icon{
+        font-size:26px;
+    }
+
+}`}
+      </style>
+
     </div>
   );
 }
+
+ 

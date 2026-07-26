@@ -1,6 +1,7 @@
  
 import { socialPlatforms } from "../components/socialPlatforms";
 import LinkRenderer from "../components/LinkRenderer";
+import SocialRenderer from "../components/SocialRenderer";
 import axios from 'axios';
 import API_BASE from "../config/api";
 export default function Theme6({ user, links }) {
@@ -26,32 +27,11 @@ export default function Theme6({ user, links }) {
           {user.bio}
         </p>
 
-        <div className={`${theme}-socials`}>
-          {user.socialIcons
-            ?.filter((s) => s.active)
-            .map((s, idx) => {
-
-              const IconComp = socialPlatforms.find(
-                (p) => p.name === s.platform
-              )?.icon;
-
-              return (
-                <a
-                  key={idx}
-                  href={s.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`${theme}-social-link`}
-                >
-                  {IconComp ? (
-                    <IconComp className={`${theme}-social-icon`} />
-                  ) : (
-                    <span>{s.platform}</span>
-                  )}
-                </a>
-              );
-            })}
-        </div>
+        
+        <SocialRenderer
+  user={user}
+  theme={theme}
+/>
 
         <LinkRenderer
           links={links}

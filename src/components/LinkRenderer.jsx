@@ -1,13 +1,415 @@
 import axios from "axios";
 import API_BASE from "../config/api";
 
+export default function LinkRenderer({ links, theme }) {
+  return (
+    <div className={`${theme}-link`}>
+      {links
+        .filter((l) => l.active)
+        .map((l) => {
+
+          /*
+          ========================================
+          🎥 VIDEO
+          ========================================
+          */
+
+          if (l.type === "video" && l.videoUrl) {
+            return (
+              <div
+                key={l._id}
+                className={`${theme}-video`}
+              >
+                <iframe
+                  className={`${theme}-video-iframe`}
+                  src={l.videoUrl.replace(
+                    "watch?v=",
+                    "embed/"
+                  )}
+                  frameBorder="0"
+                  allowFullScreen
+                />
+              </div>
+            );
+          }
+
+
+          /*
+          ========================================
+          💬 WHATSAPP
+          ========================================
+          */
+
+          if (l.type === "whatsapp" && l.phone) {
+            return (
+              <a
+                key={l._id}
+                href={`https://wa.me/${l.phone}?text=${encodeURIComponent(
+                  l.message || ""
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className={`${theme}-whatsapp-link`}
+              >
+                <div className={`${theme}-whatsapp`}>
+                  💬 Chat on WhatsApp
+                </div>
+              </a>
+            );
+          }
+
+
+          /*
+          ========================================
+          🎬 YOUTUBE
+          ========================================
+          */
+
+          if (l.type === "youtube") {
+
+            const url = l.content?.youtubeUrl;
+            const mode = l.content?.youtubeMode;
+
+            const videoMatch =
+              url?.match(/v=([^&]+)/);
+
+            const videoId =
+              videoMatch
+                ? videoMatch[1]
+                : null;
+
+
+            /*
+            ==============================
+            🎥 EMBED VIDEO
+            ==============================
+            */
+
+            if (
+              mode === "embed" &&
+              videoId
+            ) {
+              return (
+                <div
+                  key={l._id}
+                  className={`${theme}-youtube`}
+                >
+                  <iframe
+                    className={`${theme}-youtube-iframe`}
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    frameBorder="0"
+                    allowFullScreen
+                  />
+                </div>
+              );
+            }
+
+
+            /*
+            ==============================
+            📺 PLAYLIST
+            ==============================
+            */
+
+            if (mode === "playlist") {
+
+              const channelId =
+                extractChannelId(url);
+
+              return (
+                <div
+                  key={l._id}
+                  className={`${theme}-youtube-playlist`}
+                >
+                  <iframe
+                    className={`${theme}-youtube-iframe`}
+                    src={`https://www.youtube.com/embed?listType=user_uploads&list=${channelId}`}
+                    frameBorder="0"
+                    allowFullScreen
+                  />
+                </div>
+              );
+            }
+          }
+
+
+          /*
+          ========================================
+          📝 FORM
+          ========================================
+          */
+
+          if (l.type === "form") {
+
+            return (
+              <form
+                key={l._id}
+                className={`${theme}-form`}
+                onSubmit={async (e) => {
+
+                  e.preventDefault();
+
+                  const formData = {};
+
+                  l.content.formFields.forEach(
+                    (field) => {
+                      formData[field.label] =
+                        e.target[
+                          field.label
+                        ].value;
+                    }
+                  );
+
+                  try {
+
+                    await axios.post(
+                      `${API_BASE}/api/profile/submit-form/${l._id}`,
+                      formData
+                    );
+
+                    alert(
+                      l.content.formSettings
+                        ?.successMessage ||
+                        "Sent!"
+                    );
+
+                  } catch (err) {
+
+                    alert(
+                      "Error sending form"
+                    );
+
+                  }
+
+                }}
+              >
+
+                <div className={`${theme}-form-fields`}>
+
+                  {l.content.formFields.map(
+                    (field, i) => (
+
+                      <div
+                        key={i}
+                        className={`${theme}-form-field`}
+                      >
+
+                        {field.type ===
+                        "textarea" ? (
+
+                          <textarea
+                            className={`${theme}-form-input`}
+                            name={field.label}
+                            placeholder={
+                              field.placeholder
+                            }
+                            required={
+                              field.required
+                            }
+                          />
+
+                        ) : (
+
+                          <input
+                            className={`${theme}-form-input`}
+                            type={field.type}
+                            name={field.label}
+                            placeholder={
+                              field.placeholder
+                            }
+                            required={
+                              field.required
+                            }
+                          />
+
+                        )}
+
+                      </div>
+
+                    )
+                  )}
+
+                </div>
+
+
+                <button
+                  type="submit"
+                  className={`${theme}-form-button`}
+                >
+                  {l.content.formSettings
+                    ?.submitText ||
+                    "Send"}
+                </button>
+
+              </form>
+            );
+          }
+
+
+          /*
+          ========================================
+          🛍️ PRODUCT
+          ========================================
+          */
+
+          if (l.type === "product") {
+
+            const mode =
+              l.content?.productDisplay ||
+              "card";
+
+
+            /*
+            ==============================
+            🔗 PRODUCT LINK
+            ==============================
+            */
+
+            if (mode === "link") {
+
+              return (
+                <a
+                  key={l._id}
+                  href={
+                    l.content.productUrl
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`${theme}-product-link`}
+                >
+
+                  <img
+                    src={
+                      l.content.productData
+                        ?.image
+                    }
+                    alt=""
+                    className={`${theme}-product-link-image`}
+                  />
+
+                  <div
+                    className={`${theme}-product-link-info`}
+                  >
+
+                    <div
+                      className={`${theme}-product-title`}
+                    >
+                      {
+                        l.content.productData
+                          ?.title
+                      }
+                    </div>
+
+                    <div
+                      className={`${theme}-product-price`}
+                    >
+                      {
+                        l.content.productData
+                          ?.price
+                      }
+                    </div>
+
+                  </div>
+
+                </a>
+              );
+            }
+
+
+            /*
+            ==============================
+            🟢 PRODUCT CARD
+            ==============================
+            */
+
+            return (
+              <a
+                key={l._id}
+                href={
+                  l.content.productUrl
+                }
+                target="_blank"
+                rel="noreferrer"
+                className={`${theme}-product-card`}
+              >
+
+                <img
+                  src={
+                    l.content.productData
+                      ?.image
+                  }
+                  alt=""
+                  className={`${theme}-product-image`}
+                />
+
+                <div
+                  className={`${theme}-product-content`}
+                >
+
+                  <h3
+                    className={`${theme}-product-title`}
+                  >
+                    {
+                      l.content.productData
+                        ?.title
+                    }
+                  </h3>
+
+                  <p
+                    className={`${theme}-product-price`}
+                  >
+                    {
+                      l.content.productData
+                        ?.price
+                    }
+                  </p>
+
+                </div>
+
+              </a>
+            );
+          }
+
+
+          /*
+          ========================================
+          🔗 DEFAULT LINK
+          ========================================
+          */
+
+          return (
+            <a
+              key={l._id}
+              href={`${API_BASE}/api/profile/redirect/${l._id}`}
+              target="_blank"
+              rel="noreferrer"
+              className={`${theme}-default-link`}
+            >
+              {l.title}
+            </a>
+          );
+
+        })}
+    </div>
+  );
+}
+/*
+import axios from "axios";
+  
+ 
+import API_BASE from "../config/api";
+
 export default function LinkRenderer({
   links,
+  
   inputStyle,
   buttonStyle,
-  theme
+  
+  theme 
 }) {
   return (
+ 
+
     <div className={`${theme}-link`}
     
       
@@ -163,54 +565,7 @@ export default function LinkRenderer({
         );
       }
       
-      if (l.type === "form") {
-        return (
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-      
-              const formData = {};
-              l.content.formFields.forEach(field => {
-                formData[field.label] = e.target[field.label].value;
-              });
-      
-              try {
-                await axios.post(
-                  `${API_BASE}/api/profile/submit-form/${l._id}`,
-                  formData
-                );
-      
-                alert(l.content.formSettings?.successMessage || "Sent!");
-              } catch (err) {
-                alert("Error sending form");
-              }
-            }}
-          >
-            {l.content.formFields.map((field, i) => (
-              <div key={i}>
-                {field.type === "textarea" ? (
-                  <textarea
-                    name={field.label}
-                    placeholder={field.placeholder}
-                    required={field.required}
-                  />
-                ) : (
-                  <input
-                    type={field.type}
-                    name={field.label}
-                    placeholder={field.placeholder}
-                    required={field.required}
-                  />
-                )}
-              </div>
-            ))}
-      
-            <button type="submit">
-              {l.content.formSettings?.submitText || "Send"}
-            </button>
-          </form>
-        );
-      }
+     
       
       if (l.type === "product") {
       
@@ -293,43 +648,24 @@ export default function LinkRenderer({
           </a>
         );
       }
+      return (
+  <a
+    href={`${API_BASE}/api/profile/redirect/${l._id}`}
+    key={l._id}
+    target="_blank"
+    rel="noreferrer"
+    className={`${theme}-default-link`}
+  >
+    {l.title}
+  </a>
+);
       
       
-        // 🔗 DEFAULT (LINK القديم - لا تلمسه)
-        return (
-          <a
-            href={`${API_BASE}/api/profile/redirect/${l._id}`}
-            key={l._id}
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: "none" }}
-          >
-            <div
-              style={{
-                padding: "14px 18px",
-                borderRadius: 10,
-                background: "#38bdf8",
-                color: "white",
-                fontWeight: "bold",
-                transition: "0.3s",
-                cursor: "pointer"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 0 15px rgba(56,189,248,0.7)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              {l.title}
-            </div>
-          </a>
-        );
+       
       
       })}
-    </div>
+    </div> 
+    
+    
   );
-}
+}*/

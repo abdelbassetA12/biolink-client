@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FaArrowRight, FaRocket } from "react-icons/fa";
 
 export default function CTASection() {
@@ -28,13 +29,13 @@ export default function CTASection() {
 
         <div className="cta-buttons">
 
-          <button className="cta-primary">
+          <Link className="cta-primary" to="/auth">
 
             Create Your Page Now
 
             <FaArrowRight />
 
-          </button>
+          </Link>
 
           <button className="cta-secondary">
             View Live Demo

@@ -149,7 +149,7 @@ export default function Navbar() {
         }
 
         .buttoncta {
-          background: #38bdf8;
+          background: #6238f8;
           border: none;
           padding: 10px 18px;
           border-radius: 8px;

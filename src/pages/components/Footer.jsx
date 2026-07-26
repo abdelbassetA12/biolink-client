@@ -4,10 +4,11 @@ import {
   FaXTwitter,
   FaLinkedin,
   FaYoutube,
-  FaGithub
+   
+  
 } from "react-icons/fa6";
 
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaTiktok } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -37,11 +38,15 @@ export default function Footer() {
 
           <div className="footer-socials">
 
-            <a href="#">
+            <a href="https://www.instagram.com/qevora.sit/" 
+             target="_blank"
+  rel="noopener noreferrer">
               <FaInstagram />
             </a>
 
-            <a href="#">
+            <a href="https://www.facebook.com/profile.php?id=61591891105526"
+             target="_blank"
+  rel="noopener noreferrer">
               <FaFacebook />
             </a>
 
@@ -57,8 +62,11 @@ export default function Footer() {
               <FaYoutube />
             </a>
 
-            <a href="#">
-              <FaGithub />
+            
+            <a href="https://www.tiktok.com/@qevora.sit"
+             target="_blank"
+  rel="noopener noreferrer">
+              <FaTiktok />
             </a>
 
           </div>
