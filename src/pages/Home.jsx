@@ -17,7 +17,8 @@ export default function Home() {
       <CTASection />
 
       <Footer />
-      <style>
+
+       <style>
         {`
         
         /* ==========================================================
@@ -1792,6 +1793,7 @@ padding:18px;
 
 }`}
       </style>
+     
 
     </main>
   );
