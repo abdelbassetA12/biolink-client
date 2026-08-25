@@ -6,6 +6,7 @@ import Theme5 from '../themes/theme5';
 import Theme6 from '../themes/theme6';
 import Theme7 from '../themes/theme7';
 import Theme8 from '../themes/theme8';
+import Theme9 from '../themes/theme9';
 const themes={
   theme1:Theme1,
   theme2:Theme2,
@@ -14,8 +15,11 @@ const themes={
   theme5:Theme5,
   theme6:Theme6,
   theme7:Theme7,
-  theme8:Theme8
+  theme8:Theme8,
+  theme9:Theme9
 };
+
+
 
 
 

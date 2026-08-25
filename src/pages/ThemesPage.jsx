@@ -12,6 +12,7 @@ import Theme5 from "../themes/theme5";
 import Theme6 from "../themes/theme6";
 import Theme7 from '../themes/theme7';
 import Theme8 from '../themes/theme8';
+import Theme9 from '../themes/theme9';
 
 const themes = {
   theme1: Theme1,
@@ -21,7 +22,8 @@ const themes = {
   theme5: Theme5,
   theme6: Theme6,
    theme7:Theme7,
-   theme8:Theme8
+   theme8:Theme8,
+   theme9:Theme9,
 };
 
 export default function ThemesPage() {
@@ -451,161 +453,4 @@ export default function ThemesPage() {
 
 
 
-
-
-/*
-import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
-import API_BASE from "../config/api";
-import ThemeRenderer from "../components/ThemeRenderer";
-import axios from "axios";
-import Theme1 from "../themes/theme1";
-import Theme2 from "../themes/theme2";
-import Theme3 from "../themes/theme3";
-import Theme4 from "../themes/theme4";
-import Theme5 from "../themes/theme5";
-import Theme6 from "../themes/theme6";
-
-const themes = {
-  theme1: Theme1,
-  theme2: Theme2,
-  theme3: Theme3,
-  theme4: Theme4,
-  theme5: Theme5,
-  theme6: Theme6,
-};
-
-export default function ThemesPage() {
-  const { user, setUser } = useAuth();
-  const [selected, setSelected] = useState(user?.theme || "theme1");
-
-
-
-
-
-const [links, setLinks] = useState([]);
-const [socialIcons, setSocialIcons] = useState([]);
-
-useEffect(() => {
-  if (!user) return;
-
-  const fetchData = async () => {
-    const res = await axios.get(
-      `${API_BASE}/api/profile/${user.username}`
-    );
-    setLinks(res.data.links || []);
-    setSocialIcons(res.data.user.socialIcons || []);
-  };
-
-  fetchData();
-}, [user]);
-
- const saveTheme = async () => {
-  try {
-    const res = await axios.post(
-      `${API_BASE}/api/profile/update`,
-      {
-        oldUsername: user.username,
-        theme: selected,
-      },
-      {
-        withCredentials: true,
-      }
-    );
-
-    setUser(res.data);
-    localStorage.setItem("user", JSON.stringify(res.data));
-    alert("Theme updated!");
-  } catch (err) {
-    console.error(err);
-    alert("Error updating theme");
-  }
-};
-
-  return (
-    <div className="themes-page">
-      <div className="header">
-        <h2>Choose Your Theme</h2>
-        <button onClick={saveTheme}>Save</button>
-      </div>
-
-      <div className="grid">
-        {Object.keys(themes).map((themeKey) => {
-          const isActive = selected === themeKey;
-
-          return (
-            <div
-              key={themeKey}
-              className={`card ${isActive ? "active" : ""}`}
-              onClick={() => setSelected(themeKey)}
-            >
-              <ThemeRenderer
-  user={{ ...user, socialIcons }}
-  links={links}
-  previewOnly
-  themeOverride={themeKey}
-/>
-
-             
-            </div>
-          );
-        })}
-      </div>
-      <style>{`
-        .themes-page {
-          padding: 20px;
-          color: white;
-        }
-
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 20px;
-        }
-
-        .header button {
-          background: linear-gradient(135deg,#60a5fa,#a78bfa);
-          border: none;
-          padding: 10px 16px;
-          border-radius: 10px;
-          color: white;
-          cursor: pointer;
-        }
-
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 20px;
-        }
-
-        .card {
-          cursor: pointer;
-          border-radius: 16px;
-          overflow: hidden;
-          border: 1px solid #1e293b;
-          background: #020617;
-          transition: 0.25s;
-        }
-
-        .card:hover {
-          transform: scale(1.03);
-        }
-
-        .card.active {
-          border: 2px solid #6366f1;
-          box-shadow: 0 0 20px rgba(99,102,241,0.4);
-        }
-
-        .label {
-          text-align: center;
-          padding: 8px;
-          background: #020617;
-          font-size: 13px;
-        }
-      `}</style>
-      
-    </div>
-  );
-}
-  */
+ 
